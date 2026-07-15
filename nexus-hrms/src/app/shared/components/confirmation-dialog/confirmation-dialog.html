@@ -1,0 +1,16 @@
+<div class="overlay" *ngIf="visible">
+
+  <div class="box">
+
+    <p>{{ message }}</p>
+
+    <div class="actions">
+
+      <button (click)="onCancel()">Cancel</button>
+      <button (click)="onConfirm()">Confirm</button>
+
+    </div>
+
+  </div>
+
+</div>

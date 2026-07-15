@@ -1,0 +1,37 @@
+<aside
+  class="sidebar"
+  [class.collapsed]="collapsed">
+
+  <div class="logo">
+
+    <span>NexusHRMS</span>
+
+  </div>
+
+  <nav>
+
+    @for(menu of menus; track menu.route){
+
+      <a
+        [routerLink]="menu.route"
+        routerLinkActive="active">
+
+        <span class="icon">
+          {{ menu.icon }}
+        </span>
+
+        @if(!collapsed){
+
+          <span>
+            {{ menu.label }}
+          </span>
+
+        }
+
+      </a>
+
+    }
+
+  </nav>
+
+</aside>

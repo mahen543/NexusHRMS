@@ -1,0 +1,6 @@
+@NexusHRMS.HikeFlowWeb_HostAddress = http://localhost:5205
+
+GET {{NexusHRMS.HikeFlowWeb_HostAddress}}/api/employee/
+Accept: application/json
+
+###

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="HikeFlowService/HikeFlowService.csproj" Id="406e6fe9-e07b-4c2a-bc7b-95687e7b43b0" />
+  <Project Path="HRMS@HikeFlow/HRMS@HikeFlow.csproj" Id="b6646f1a-5d27-4ffb-9be3-52346baa035b" />
+  <Project Path="HRMS_Common/HRMS_Common.csproj" Id="294f5e74-8479-4b03-8981-3a869f249742" />
+  <Project Path="NexusHRMS.HikeFlowWeb/NexusHRMS.HikeFlowWeb.csproj" />
+</Solution>

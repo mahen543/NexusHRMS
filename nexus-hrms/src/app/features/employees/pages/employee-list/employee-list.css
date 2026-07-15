@@ -1,0 +1,21 @@
+:root {
+  --bs-primary: #6f42c1;
+  --bs-primary-rgb: 111, 66, 193;
+}
+
+.bg-primary {
+  background-color: #6f42c1 !important;
+}
+
+.text-primary {
+  color: #6f42c1 !important;
+}
+
+.btn-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f4efff;
+}

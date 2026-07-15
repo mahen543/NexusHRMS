@@ -1,0 +1,267 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\NexusHRMS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|d:\\nexushrms\\hrms@hikeflow\\bal\\nexusbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|solutionrelative:hrms@hikeflow\\bal\\nexusbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|d:\\nexushrms\\hrms@hikeflow\\dal\\nexusdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|solutionrelative:hrms@hikeflow\\dal\\nexusdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|d:\\nexushrms\\nexushrms.hikeflowweb\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|solutionrelative:nexushrms.hikeflowweb\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|d:\\nexushrms\\hrms_common\\general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|solutionrelative:hrms_common\\general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|d:\\nexushrms\\hrms@hikeflow\\nexusproperties\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|solutionrelative:hrms@hikeflow\\nexusproperties\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|d:\\nexushrms\\hrms_common\\commonproperties\\regularexpressions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|solutionrelative:hrms_common\\commonproperties\\regularexpressions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|d:\\nexushrms\\hrms@hikeflow\\nexusproperties\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|solutionrelative:hrms@hikeflow\\nexusproperties\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|d:\\nexushrms\\nexushrms.hikeflowweb\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|solutionrelative:nexushrms.hikeflowweb\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|d:\\nexushrms\\nexushrms.hikeflowweb\\nexushrms.hikeflowweb.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|solutionrelative:nexushrms.hikeflowweb\\nexushrms.hikeflowweb.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|d:\\nexushrms\\hrms_common\\appdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|solutionrelative:hrms_common\\appdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|d:\\nexushrms\\nexushrms.hikeflowweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|solutionrelative:nexushrms.hikeflowweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|d:\\nexushrms\\hrms@hikeflow\\hrms@hikeflow.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B6646F1A-5D27-4FFB-9BE3-52346BAA035B}|HRMS@HikeFlow\\HRMS@HikeFlow.csproj|solutionrelative:hrms@hikeflow\\hrms@hikeflow.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|d:\\nexushrms\\hrms_common\\hrms_common.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{294F5E74-8479-4B03-8981-3A869F249742}|HRMS_Common\\HRMS_Common.csproj|solutionrelative:hrms_common\\hrms_common.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|d:\\nexushrms\\nexushrms.hikeflowweb\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|solutionrelative:nexushrms.hikeflowweb\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|d:\\nexushrms\\nexushrms.hikeflowweb\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E3545C6F-7B96-33A2-BFF7-130B56DE059B}|NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.csproj|solutionrelative:nexushrms.hikeflowweb\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "General.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS_Common\\General.cs",
+              "RelativeDocumentMoniker": "HRMS_Common\\General.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS_Common\\General.cs",
+              "RelativeToolTip": "HRMS_Common\\General.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAQwCQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T10:16:59.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmployeeController.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\Controllers\\EmployeeController.cs",
+              "RelativeDocumentMoniker": "NexusHRMS.HikeFlowWeb\\Controllers\\EmployeeController.cs",
+              "ToolTip": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\Controllers\\EmployeeController.cs",
+              "RelativeToolTip": "NexusHRMS.HikeFlowWeb\\Controllers\\EmployeeController.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAmwHkAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T10:13:32.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RegularExpressions.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS_Common\\CommonProperties\\RegularExpressions.cs",
+              "RelativeDocumentMoniker": "HRMS_Common\\CommonProperties\\RegularExpressions.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS_Common\\CommonProperties\\RegularExpressions.cs",
+              "RelativeToolTip": "HRMS_Common\\CommonProperties\\RegularExpressions.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-17T22:23:22.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Response.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS@HikeFlow\\NexusProperties\\Response.cs",
+              "RelativeDocumentMoniker": "HRMS@HikeFlow\\NexusProperties\\Response.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS@HikeFlow\\NexusProperties\\Response.cs",
+              "RelativeToolTip": "HRMS@HikeFlow\\NexusProperties\\Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-17T23:13:58.114Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NexusBAL.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS@HikeFlow\\BAL\\NexusBAL.cs",
+              "RelativeDocumentMoniker": "HRMS@HikeFlow\\BAL\\NexusBAL.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS@HikeFlow\\BAL\\NexusBAL.cs",
+              "RelativeToolTip": "HRMS@HikeFlow\\BAL\\NexusBAL.cs",
+              "ViewState": "AgIAAOgAAAAAAAAAAAAkwMYAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-17T23:12:36.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NexusDAL.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS@HikeFlow\\DAL\\NexusDAL.cs",
+              "RelativeDocumentMoniker": "HRMS@HikeFlow\\DAL\\NexusDAL.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS@HikeFlow\\DAL\\NexusDAL.cs",
+              "RelativeToolTip": "HRMS@HikeFlow\\DAL\\NexusDAL.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAQwDUAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-17T23:13:22.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Request.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS@HikeFlow\\NexusProperties\\Request.cs",
+              "RelativeDocumentMoniker": "HRMS@HikeFlow\\NexusProperties\\Request.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS@HikeFlow\\NexusProperties\\Request.cs",
+              "RelativeToolTip": "HRMS@HikeFlow\\NexusProperties\\Request.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-01T01:00:09.842Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\appsettings.json",
+              "RelativeDocumentMoniker": "NexusHRMS.HikeFlowWeb\\appsettings.json",
+              "ToolTip": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\appsettings.json",
+              "RelativeToolTip": "NexusHRMS.HikeFlowWeb\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-13T10:47:51.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AppDb.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS_Common\\AppDb.cs",
+              "RelativeDocumentMoniker": "HRMS_Common\\AppDb.cs",
+              "ToolTip": "D:\\NexusHRMS\\HRMS_Common\\AppDb.cs",
+              "RelativeToolTip": "HRMS_Common\\AppDb.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T16:26:07.68Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "NexusHRMS.HikeFlowWeb.http",
+              "DocumentMoniker": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.http",
+              "RelativeDocumentMoniker": "NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.http",
+              "ToolTip": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.http",
+              "RelativeToolTip": "NexusHRMS.HikeFlowWeb\\NexusHRMS.HikeFlowWeb.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-05-13T10:47:18.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\Program.cs",
+              "RelativeDocumentMoniker": "NexusHRMS.HikeFlowWeb\\Program.cs",
+              "ToolTip": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\Program.cs",
+              "RelativeToolTip": "NexusHRMS.HikeFlowWeb\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T16:20:32.498Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "HRMS@HikeFlow.csproj",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS@HikeFlow\\HRMS@HikeFlow.csproj",
+              "RelativeDocumentMoniker": "HRMS@HikeFlow\\HRMS@HikeFlow.csproj",
+              "ToolTip": "D:\\NexusHRMS\\HRMS@HikeFlow\\HRMS@HikeFlow.csproj",
+              "RelativeToolTip": "HRMS@HikeFlow\\HRMS@HikeFlow.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-17T23:10:46.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "NexusHRMS.HikeFlowWeb\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\Properties\\launchSettings.json",
+              "RelativeToolTip": "NexusHRMS.HikeFlowWeb\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-05T16:27:38.727Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "NexusHRMS.HikeFlowWeb\\appsettings.Development.json",
+              "ToolTip": "D:\\NexusHRMS\\NexusHRMS.HikeFlowWeb\\appsettings.Development.json",
+              "RelativeToolTip": "NexusHRMS.HikeFlowWeb\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-13T10:47:15.216Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "HRMS_Common.csproj",
+              "DocumentMoniker": "D:\\NexusHRMS\\HRMS_Common\\HRMS_Common.csproj",
+              "RelativeDocumentMoniker": "HRMS_Common\\HRMS_Common.csproj",
+              "ToolTip": "D:\\NexusHRMS\\HRMS_Common\\HRMS_Common.csproj",
+              "RelativeToolTip": "HRMS_Common\\HRMS_Common.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-13T10:58:43.061Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

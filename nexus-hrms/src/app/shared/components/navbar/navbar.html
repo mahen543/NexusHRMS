@@ -1,0 +1,51 @@
+<header class="navbar">
+
+  <div class="navbar-left">
+
+    <button
+      class="menu-btn"
+      (click)="onToggleSidebar()">
+
+      ☰
+
+    </button>
+
+    <h2>NexusHRMS</h2>
+
+  </div>
+
+  <div class="navbar-right">
+
+    <div class="search-container">
+
+      <input
+        type="text"
+        placeholder="Search employees, projects..." />
+
+    </div>
+
+    <div class="notification">
+
+      🔔
+
+      <span class="badge">
+        {{ notificationCount }}
+      </span>
+
+    </div>
+
+    <div class="profile">
+
+      <div class="avatar">
+        A
+      </div>
+
+      <span>
+        Admin
+      </span>
+
+    </div>
+
+  </div>
+
+</header>
