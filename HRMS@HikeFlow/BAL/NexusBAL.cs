@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using static HRMS_Common.General;
 using System.Text.Json;
+using System.Net;
 
 namespace HRMS_HikeFlow.NexusBAL
 {
@@ -22,10 +23,10 @@ namespace HRMS_HikeFlow.NexusBAL
         #endregion
 
         #region Constructors
-        public NexusBAL(AppDb objAppDb, General objGeneral, RegularExpressions objRegularExpressions = null)
+        public NexusBAL(AppDb objAppDb, General? objGeneral = null, RegularExpressions? objRegularExpressions = null)
         {
             _objAppDb = objAppDb;
-            _objGeneral = objGeneral;
+            _objGeneral = objGeneral ?? new General();
             _objRegularExpressions = objRegularExpressions;
         }
         #endregion
@@ -52,7 +53,7 @@ namespace HRMS_HikeFlow.NexusBAL
         /// <param>objListDTO</param>
         /// <returns>DataTable</returns> //It returns the Date Table.
         /// </summary> 
-        public Response<object>? GetEmployees(Request objAPIRequest)
+        public Response<object>? GetEmployees(GetRequest objAPIRequest)
         {
             #region Common Variables
 
@@ -80,7 +81,7 @@ namespace HRMS_HikeFlow.NexusBAL
                 {
                     if (!string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.SearchWord)))
                     {
-                        if (!Regex.IsMatch(Convert.ToString(objAPIRequest.SearchWord), _objRegularExpressions.RegExSearchWord))
+                        if (!Regex.IsMatch(Convert.ToString(objAPIRequest.SearchWord), _objRegularExpressions.RegExSearchWord ?? string.Empty))
                         {
                             intErrorCode = Convert.ToInt32(ErrorCode.Invalid_SearchWord);
                         }
@@ -96,7 +97,7 @@ namespace HRMS_HikeFlow.NexusBAL
                 if (intErrorCode == 0)
                 {
 
-                    if (objAPIRequest != null )
+                    if (objAPIRequest != null)
                     {
                         try
                         {
@@ -185,7 +186,7 @@ namespace HRMS_HikeFlow.NexusBAL
         /// <c>InsertEmployee</c> This method is used to insert Employee record into tblEmployee table.
         /// <param>dynamic</param>
         /// </summary> 
-        public Response<object> InsertEmployee(dynamic objAPIRequest)
+        public Response<object> InsertEmployee(InsertRequest objAPIRequest)
         {
 
 
@@ -193,144 +194,142 @@ namespace HRMS_HikeFlow.NexusBAL
 
             DateTime dtStartResponseTime = DateTime.Now;
             int intErrorCode = 0;
-            string strResponse = string.Empty;
+            //string strResponse = string.Empty;
             #endregion
 
             #region Specific Variables
 
             Response<object>? objResponse = null;
-            NexusDAL? objNexusDAL = null;
-            string strId = string.Empty;
+            object? objResult = null;
+            //string strId = string.Empty;
             #endregion
 
 
             try
             {
 
-                #region Default values
-
-                objAPIRequest.IpAddress = _objGeneral.GetIP4Address();
-                #endregion
-
                 #region Request data Validations
 
                 #region FirstName Validation
-                if (intErrorCode == 0)
+                if (objAPIRequest == null)
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.FirstName)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.FirstName_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.FirstName), _objRegularExpressions?.RegExForName))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_FirstName);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Request);
+                }
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.FirstName))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.FirstName_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.FirstName, _objRegularExpressions.RegExForName ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_FirstName);
                 }
                 #endregion
 
-                #region LastName Validation
-                if (intErrorCode == 0)
+                #region Optional LastName Validation
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.LastName) &&
+                         !Regex.IsMatch(objAPIRequest.LastName, _objRegularExpressions.RegExForName ?? string.Empty))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.LastName)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.LastName_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.LastName), _objRegularExpressions?.RegExForName))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_LastName);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_LastName);
                 }
                 #endregion
 
                 #region Email Validation
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.Email))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.Email)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Email_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.Email), _objRegularExpressions.RegExForEmail))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Email);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Email_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.Email, _objRegularExpressions.RegExForEmail ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Email);
                 }
                 #endregion
 
                 #region MobileNumber Validation
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.MobileNo))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.MobileNumber)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Mobile_Number_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.MobileNumber), _objRegularExpressions.RegExForMobileNumber))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Mobile_Number);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Mobile_Number_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.MobileNo, _objRegularExpressions.RegExForMobileNo ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Mobile_Number);
+                }
+                #endregion
+
+                #region Gender Validation
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.Gender))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Gender_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.Gender, _objRegularExpressions.RegExForGender ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Gender);
+                }
+                #endregion
+
+                #region EmployeeType Validation
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.EmployeeType))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.EmployeeType_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.EmployeeType, _objRegularExpressions.RegExForEmployeeType ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_EmployeeType);
                 }
                 #endregion
 
                 #region Department Validation
-                if (intErrorCode == 0)
+                else if (objAPIRequest.DepartmentId <= 0)
                 {
-                    if (Convert.ToInt64(objAPIRequest.DepartmentId) <= 0)
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Department_Required);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Department_Required);
                 }
                 #endregion
 
-                #region Degignation Validation
-                if (intErrorCode == 0)
+                #region Designation Validation
+                else if (objAPIRequest.DesignationId <= 0)
                 {
-                    if (Convert.ToInt64(objAPIRequest.DesignationId) <= 0)
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Designation_Required);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Designation_Required);
                 }
                 #endregion
 
                 #region Company Validation
-                if (intErrorCode == 0)
+                else if (objAPIRequest.CompanyId <= 0)
                 {
-                    if (Convert.ToInt64(objAPIRequest.CompanyId) <= 0)
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Company_Required);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Company_Required);
                 }
                 #endregion
 
                 #region Site Validation
-                if (intErrorCode == 0)
+                else if (objAPIRequest.SiteId <= 0)
                 {
-                    if (Convert.ToInt64(objAPIRequest.SiteId) <= 0)
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Site_Required);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Site_Required);
                 }
                 #endregion
 
                 #region DateOfJoining Validation
-                if (intErrorCode == 0)
+                else if (objAPIRequest.DateOfJoining == null || objAPIRequest.DateOfJoining == DateTime.MinValue)
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.DateOfJoining)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.DateOfJoining_Required);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.DateOfJoining_Required);
                 }
                 #endregion
 
                 #region CreatedBy Validation
-
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.CreatedBy))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.CreatedBy)))
+                    intErrorCode = Convert.ToInt32(ErrorCode.CreatedBy_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.CreatedBy, _objRegularExpressions.RegExForName))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_CreatedBy);
+                }
+                #endregion
+
+                #region Optional IPAddress Validation
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.IPAddress))
+                {
+                    if (objAPIRequest.IPAddress.Length > 64 ||
+                        !System.Net.IPAddress.TryParse(objAPIRequest.IPAddress, out _))
                     {
-                        intErrorCode = Convert.ToInt32(ErrorCode.CreatedBy_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.CreatedBy), _objRegularExpressions?.RegExForName))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_CreatedBy);
+                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_IPAddress);
                     }
                 }
                 #endregion
@@ -343,26 +342,20 @@ namespace HRMS_HikeFlow.NexusBAL
                 {
                     try
                     {
+                        NexusDAL objNexusDAL = new NexusDAL(_objAppDb);
+                        objResult = objNexusDAL.InsertEmployee(objAPIRequest!);
 
-                        objNexusDAL = new NexusDAL(_objAppDb);
-                        strId = (string)objNexusDAL.InsertEmployee(objAPIRequest);
-
-
-                        if (strId != "ERROR")
-                        {
-                            strResponse = JsonConvert.SerializeObject(strId, Formatting.Indented);
-                        }
-                        else
+                        if (objResult == null || objResult == DBNull.Value || objResult.ToString() == "ERROR")
                         {
                             intErrorCode = Convert.ToInt32(ErrorCode.No_Records_Found);
                         }
                     }
-                    catch (Exception)
+                    finally
                     {
-
-                        intErrorCode = Convert.ToInt32(ErrorCode.Technical_Error);
+                        objAPIRequest = null;
                     }
                 }
+
                 #endregion
             }
             catch (Exception)
@@ -371,37 +364,51 @@ namespace HRMS_HikeFlow.NexusBAL
             }
             finally
             {
-                try
+                if (intErrorCode > 0)
                 {
-                    if (intErrorCode > 0)
-                    {
-                        NexusDAL objError = new NexusDAL(_objAppDb);
-                        objResponse = new Response<object>
-                        {
-                            ReturnCode = intErrorCode,
-                            ReturnMessage = (string)objError.GetErrorMessage(intErrorCode),
-                        };
-                    }
-                    else if (intErrorCode == 0 && strId != null)
-                    {
-                        objResponse = new Response<object>
-                        {
-                            ReturnCode = 0,
-                            ReturnMessage = "Insert successful",
-                            RecordCount = 0
-                        };
-                        var json = JsonConvert.DeserializeObject<dynamic>(strResponse);
+                    string? strEnumName = Enum.GetName(typeof(ErrorCode), intErrorCode);
+                    string errorMessage;
 
-                        objResponse.Data = json;
+                    if (!string.IsNullOrEmpty(strEnumName))
+                    {
+                        errorMessage = strEnumName.Replace('_', ' ');
                     }
-                    objResponse.ResponseTime = Math.Round((DateTime.Now - dtStartResponseTime).TotalMilliseconds).ToString();
+                    else
+                    {
+                        try
+                        {
+                            // Fetch error message safely
+                            NexusDAL objError = new NexusDAL(_objAppDb);
+                            errorMessage = (string?)objError.GetErrorMessage(intErrorCode) ?? "An error occurred. Please try again."; ;
+                        }
+                        catch
+                        {
+                            // Fallback string if DB connection fails
+                            errorMessage = "An unexpected error occurred. Please try again later.";
+                        }
+                    }
+
+
+                    objResponse = new Response<object>
+                    {
+                        ReturnCode = intErrorCode,
+                        ReturnMessage = errorMessage
+                    };
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    objResponse = new Response<object>
+                    {
+                        ReturnCode = 0,
+                        ReturnMessage = "Insert successful",
+                        RecordCount = 0,
+                        Data = objResult
+                    };
                 }
 
+                objResponse.ResponseTime = Math.Round((DateTime.Now - dtStartResponseTime).TotalMilliseconds).ToString();
             }
+
             return objResponse;
         }
         #endregion
@@ -427,7 +434,7 @@ namespace HRMS_HikeFlow.NexusBAL
         /// <c>UpdateEmployeeById</c> This method is used to update Employee record based on Id.
         /// <param>dynamic</param>
         /// </summary> 
-        public Response<object> UpdateEmployeeById(dynamic objAPIRequest)
+        public Response<object> UpdateEmployeeById(UpdateRequest objAPIRequest)
         {
 
 
@@ -435,128 +442,216 @@ namespace HRMS_HikeFlow.NexusBAL
 
             DateTime dtStartResponseTime = DateTime.Now;
             int intErrorCode = 0;
-            string strResponse = string.Empty;
+            //string strResponse = string.Empty;
             #endregion
 
             #region Specific Variables
 
             Response<object>? objResponse = null;
-            NexusDAL? objNexusDAL = null;
-            string strId = string.Empty;
+            // NexusDAL? objNexusDAL = null;
+            //string strId = string.Empty;
+            object? objResult = null;
             #endregion
 
 
             try
             {
                 #region Request data Validations
+                #region Request data Validations
 
+                if (objAPIRequest == null)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Request);
+                }
 
                 #region Id Validation
-
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.Id))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.Id)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Id_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.Id), _objRegularExpressions?.RegExForId))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Id);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Id_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.Id, _objRegularExpressions.RegExForId ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Id);
                 }
                 #endregion
 
                 #region UpdatedBy Validation
-
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.UpdatedBy))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.UpdatedBy)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.UpdatedBy_Required);
-                    }
-                    else if (!Regex.IsMatch(Convert.ToString(objAPIRequest.UpdatedBy), _objRegularExpressions?.RegExForName))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_UpdatedBy);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.UpdatedBy_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.UpdatedBy, _objRegularExpressions.RegExForName ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_UpdatedBy);
                 }
                 #endregion
 
-                // Any of the below fields are required
-                // Required all fields validations at one place
+                #region Validation: At Least One Field To Update Check
+                else if (objAPIRequest.FirstName == null &&
+                         objAPIRequest.LastName == null &&
+                         objAPIRequest.MiddleName == null &&
+                         objAPIRequest.Email == null &&
+                         objAPIRequest.Cmail == null &&
+                         objAPIRequest.MobileNo == null &&
+                         objAPIRequest.Gender == null &&
+                         objAPIRequest.DepartmentId == null &&
+                         objAPIRequest.DesignationId == null &&
+                         objAPIRequest.CurrentSalary == null &&
+                         objAPIRequest.CompanyId == null &&
+                         objAPIRequest.SiteId == null &&
+                         objAPIRequest.EmployeeCode == null &&
+                         objAPIRequest.EmployeeType == null &&
+                         objAPIRequest.ReportingManagerId == null &&
+                         objAPIRequest.ExperienceYears == null &&
+                         objAPIRequest.IsPublished == null &&
+                         objAPIRequest.PublishedBy == null &&
+                         objAPIRequest.DisplayOnWeb == null &&
+                         objAPIRequest.SortOrder == null &&
+                         objAPIRequest.Tag == null &&
+                         objAPIRequest.Comments == null &&
+                         objAPIRequest.IPAddress == null &&
+                         objAPIRequest.DateOfJoining == null)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.At_Least_One_Field_Required);
+                }
                 #endregion
 
+                #region Optional Text Validations
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.FirstName) &&
+                         !Regex.IsMatch(objAPIRequest.FirstName, _objRegularExpressions.RegExForName ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_FirstName);
+                }
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.LastName) &&
+                         !Regex.IsMatch(objAPIRequest.LastName, _objRegularExpressions.RegExForName ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_LastName);
+                }
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.Email) &&
+                         !Regex.IsMatch(objAPIRequest.Email, _objRegularExpressions.RegExForEmail ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Email);
+                }
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.MobileNo) &&
+                         !Regex.IsMatch(objAPIRequest.MobileNo, _objRegularExpressions.RegExForMobileNo ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Mobile_Number);
+                }
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.Gender) &&
+                         !Regex.IsMatch(objAPIRequest.Gender, _objRegularExpressions.RegExForGender ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Gender);
+                }
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.EmployeeType) &&
+                         !Regex.IsMatch(objAPIRequest.EmployeeType, _objRegularExpressions.RegExForEmployeeType ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_EmployeeType);
+                }
+                #endregion
 
+                #region Optional Foreign Keys / Numeric Checks
+                else if (objAPIRequest.DepartmentId.HasValue && objAPIRequest.DepartmentId <= 0)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Department);
+                }
+                else if (objAPIRequest.DesignationId.HasValue && objAPIRequest.DesignationId <= 0)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Designation);
+                }
+                else if (objAPIRequest.CompanyId.HasValue && objAPIRequest.CompanyId <= 0)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Company);
+                }
+                else if (objAPIRequest.SiteId.HasValue && objAPIRequest.SiteId <= 0)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Site);
+                }
+                #endregion
+
+                #region Optional IPAddress Validation
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.IPAddress))
+                {
+                    if (objAPIRequest.IPAddress.Length > 64 ||
+                        !System.Net.IPAddress.TryParse(objAPIRequest.IPAddress, out _))
+                    {
+                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_IPAddress);
+                    }
+                }
+                #endregion
+                #endregion
                 #region Calling DAL
 
                 if (intErrorCode == 0)
                 {
-                    if (objAPIRequest != null)
+                    try
                     {
-                        try
+                        NexusDAL objNexusDAL = new NexusDAL(_objAppDb);
+                        objResult = objNexusDAL.UpdateEmployeeById(objAPIRequest!);
+
+                        if (objResult == null || objResult == DBNull.Value || objResult.ToString() == "ERROR")
                         {
-
-                            objNexusDAL = new NexusDAL(_objAppDb);
-                            strId = (string)objNexusDAL.UpdateEmployeeById(objAPIRequest);
-
-
-                            if (strId != null && strId != "ERROR")
-                            {
-                                strResponse = JsonConvert.SerializeObject(strId, Formatting.Indented);
-                            }
-                            else if (strId == "ERROR")
-                            {
-                                intErrorCode = Convert.ToInt32(ErrorCode.No_Records_Found);
-                            }
-                            else
-                            {
-                                intErrorCode = Convert.ToInt32(ErrorCode.No_Records_Found);
-                            }
-                        }
-                        catch (Exception)
-                        {
-
-                            intErrorCode = Convert.ToInt32(ErrorCode.Technical_Error);
+                            intErrorCode = Convert.ToInt32(ErrorCode.No_Records_Found);
                         }
                     }
+                    finally
+                    {
+                        objAPIRequest = null;
+                    }
                 }
+
                 #endregion
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 intErrorCode = Convert.ToInt32(ErrorCode.Technical_Error);
             }
             finally
             {
-                try
+                if (intErrorCode > 0)
                 {
-                    if (intErrorCode > 0)
-                    {
-                        NexusDAL objError = new NexusDAL(_objAppDb);
-                        objResponse = new Response<object>
-                        {
-                            ReturnCode = intErrorCode,
-                            ReturnMessage = (string)objError.GetErrorMessage(intErrorCode),
-                        };
+                    string? strEnumName = Enum.GetName(typeof(ErrorCode), intErrorCode);
+                    string errorMessage;
 
-                    }
-                    else if (intErrorCode == 0 && strId != null)
+                    if (!string.IsNullOrEmpty(strEnumName))
                     {
-                        objResponse = new Response<object>
-                        {
-                            ReturnCode = 0,
-                            ReturnMessage = "update successful",
-                            RecordCount = 0,
-                        };
-                        var json = JsonConvert.DeserializeObject<dynamic>(strResponse);
-                        objResponse.Data = json;
-
+                        errorMessage = strEnumName.Replace('_', ' ');
                     }
-                    objResponse?.ResponseTime = Math.Round((DateTime.Now - dtStartResponseTime).TotalMilliseconds).ToString();
+                    else
+                    {
+                        try
+                        {
+                            // Fetch error message safely
+                            NexusDAL objError = new NexusDAL(_objAppDb);
+                            errorMessage = (string?)objError.GetErrorMessage(intErrorCode) ?? "An error occurred. Please try again."; ;
+                        }
+                        catch
+                        {
+                            // Fallback string if DB connection fails
+                            errorMessage = "An unexpected error occurred. Please try again later.";
+                        }
+                    }
+
+
+                    objResponse = new Response<object>
+                    {
+                        ReturnCode = intErrorCode,
+                        ReturnMessage = errorMessage
+                    };
                 }
-                catch (Exception)
+                else
                 {
+                    objResponse = new Response<object>
+                    {
+                        ReturnCode = 0,
+                        ReturnMessage = "Update Successful",
+                        RecordCount = 0,
+                        Data = objResult
+                    };
                 }
+
+                objResponse.ResponseTime = Math.Round((DateTime.Now - dtStartResponseTime).TotalMilliseconds).ToString();
             }
+
             return objResponse;
         }
         #endregion
@@ -582,20 +677,18 @@ namespace HRMS_HikeFlow.NexusBAL
         /// <c>DeleteEmployeeById</c> This method is used to delete the Employee record based on Id.
         /// <param>dynamic</param>
         /// </summary> 
-        public Response<object> DeleteEmployeeById(Request objAPIRequest)
+        public Response<object> DeleteEmployeeById(DeleteRequest objAPIRequest)
         {
 
             #region Common Variables
 
             DateTime dtStartResponseTime = DateTime.Now;
             int intErrorCode = 0;
-            string strResponse = string.Empty;
             #endregion
 
             #region Specific Variables
 
             Response<object>? objResponse = null;
-            NexusDAL? objNexusDAL = null;
             int intResult = 0;
             #endregion
 
@@ -605,31 +698,42 @@ namespace HRMS_HikeFlow.NexusBAL
 
                 #region Request data Validations
 
+                if (objAPIRequest == null)
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Request);
+                }
+
                 #region Id Validation
 
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.Id))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.Id)))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Id_Required);
-                    }
-                    else if (objAPIRequest.Id != null && !Regex.IsMatch(Convert.ToString(objAPIRequest.Id), _objRegularExpressions?.RegExForId))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Id);
-                    }
+                    intErrorCode = Convert.ToInt32(ErrorCode.Id_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.Id, _objRegularExpressions.RegExForId ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_Id);
                 }
                 #endregion
 
                 #region DeletedBy Validation
-                if (intErrorCode == 0)
+                else if (string.IsNullOrWhiteSpace(objAPIRequest.DeletedBy))
                 {
-                    if (string.IsNullOrWhiteSpace(Convert.ToString(objAPIRequest.DeletedBy)))
+                    intErrorCode = Convert.ToInt32(ErrorCode.DeletedBy_Required);
+                }
+                else if (!Regex.IsMatch(objAPIRequest.DeletedBy, _objRegularExpressions.RegExForName ?? string.Empty))
+                {
+                    intErrorCode = Convert.ToInt32(ErrorCode.Invalid_DeletedBy);
+                }
+                #endregion
+
+                #region IPAddress Validation
+                else if (!string.IsNullOrWhiteSpace(objAPIRequest.IPAddress))
+                {
+                    // Check both length (for DB safety) and valid IPv4/IPv6 format
+                    if (objAPIRequest.IPAddress.Length > 64 ||
+                        !System.Net.IPAddress.TryParse(objAPIRequest.IPAddress, out _))
                     {
-                        intErrorCode = Convert.ToInt32(ErrorCode.DeletedBy_Required);
-                    }
-                    else if (objAPIRequest?.DeletedBy != null && !Regex.IsMatch(Convert.ToString(objAPIRequest.DeletedBy), _objRegularExpressions.RegExForName))
-                    {
-                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_DeletedBy);
+                        intErrorCode = Convert.ToInt32(ErrorCode.Invalid_IPAddress);
                     }
                 }
                 #endregion
@@ -640,34 +744,24 @@ namespace HRMS_HikeFlow.NexusBAL
 
                 if (intErrorCode == 0)
                 {
-                    if (objAPIRequest != null)
+
+                    try
                     {
-                        try
+
+                        NexusDAL objNexusDAL = new NexusDAL(_objAppDb);
+                        intResult = (int)objNexusDAL.DeleteEmployeeById(objAPIRequest!);
+
+                        if (intResult <= 0)
                         {
-
-                            objNexusDAL = new NexusDAL(_objAppDb);
-                            intResult = (int)objNexusDAL.DeleteEmployeeById(objAPIRequest);
-
-
-                            if (intResult > 0)
-                            {
-                                strResponse = JsonConvert.SerializeObject(intResult, Formatting.Indented);
-                            }
-                            else
-                            {
-                                intErrorCode = Convert.ToInt32(ErrorCode.Record_Already_Deleted);
-                            }
-                        }
-                        catch (Exception)
-                        {
-
-                            intErrorCode = Convert.ToInt32(ErrorCode.Technical_Error);
-                        }
-                        finally
-                        {
-                            objAPIRequest = null;
+                            intErrorCode = Convert.ToInt32(ErrorCode.Record_Already_Deleted);
                         }
                     }
+
+                    finally
+                    {
+                        objAPIRequest = null;
+                    }
+
                 }
                 #endregion
             }
@@ -678,42 +772,59 @@ namespace HRMS_HikeFlow.NexusBAL
             }
             finally
             {
-                try
+
+                if (intErrorCode > 0)
                 {
-                    if (intErrorCode > 0)
+                    // First try to resolve the message instantly from memory via Enum
+                    string? strEnumName = Enum.GetName(typeof(ErrorCode), intErrorCode);
+                    string errorMessage;
+
+                    if (!string.IsNullOrEmpty(strEnumName))
                     {
-                        NexusDAL objError = new NexusDAL(_objAppDb);
-                        objResponse = new Response<object>
-                        {
-                            ReturnCode = intErrorCode,
-                            ReturnMessage = (string)objError.GetErrorMessage(intErrorCode),
-                        };
+                        errorMessage = strEnumName.Replace('_', ' ');
                     }
-                    else if (intErrorCode == 0 && intResult != 0)
+                    else
                     {
-                        objResponse = new Response<object>
+                        try
                         {
-                            ReturnCode = 0,
-                            ReturnMessage = "Delete Successsful",
-                            RecordCount = 0,
-                        };
-
-                        objResponse.Data = JsonConvert.DeserializeObject(strResponse);
-
+                            // Fetch error message safely
+                            NexusDAL objError = new NexusDAL(_objAppDb);
+                            errorMessage = (string?)objError.GetErrorMessage(intErrorCode) ?? "An error occurred. Please try again."; ;
+                        }
+                        catch
+                        {
+                            // Fallback string if DB connection fails
+                            errorMessage = "An unexpected error occurred. Please try again later.";
+                        }
                     }
+                    
 
-                    objResponse.ResponseTime = Math.Round((DateTime.Now - dtStartResponseTime).TotalMilliseconds).ToString();
+                    objResponse = new Response<object>
+                    {
+                        ReturnCode = intErrorCode,
+                        ReturnMessage = errorMessage
+                    };
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    objResponse = new Response<object>
+                    {
+                        ReturnCode = 0,
+                        ReturnMessage = "Delete Successful",
+                        RecordCount = 0,
+                        Data = intResult
+                    };
                 }
 
+                objResponse.ResponseTime = Math.Round((DateTime.Now - dtStartResponseTime).TotalMilliseconds).ToString();
             }
+
 
             return objResponse;
         }
+        #endregion
 
         #endregion
     }
 }
+

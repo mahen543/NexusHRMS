@@ -48,11 +48,22 @@ namespace HRMS_Common
             Invalid_CreatedBy = 28,
             Invalid_UpdatedBy = 29,
             Invalid_IsPublished = 14,
-
+            Employee_record_not_found_or_has_been_deleted = 404,
+            Employee_profile_with_this_Email_or_Mobile_Number_already_exists = 33,
             Record_Already_Deleted = 31,
             Record_Not_Found = 24,
             Mobile_Number_Required = 25,
             Invalid_Mobile_Number = 26,
+            Invalid_IPAddress = 34,
+            Invalid_Request = 35,
+            EmployeeType_Required = 36,
+            Gender_Required = 37,
+            Invalid_Gender = 38,
+            Invalid_EmployeeType = 39,
+            Invalid_Department = 41,
+            Invalid_Designation = 42,
+            At_Least_One_Field_Required = 43,
+
         }
         #region CommonResponseErrorCodes
         public enum CommonResponseErrorCodes

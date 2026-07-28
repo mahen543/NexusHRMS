@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout';
+import { authGuard } from './features/auth/guards/auth-guard';
 
 export const routes: Routes = [
 
     {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [authGuard], // ✅ Correct! Protects Dashboard, Employees, Attendance
     children: [
 
       {
@@ -40,9 +42,13 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./features/auth/auth.routes')
-            .then(m => m.AUTH_ROUTES)
+          import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
       }
     ]
+  },
+  // Catch-all route for invalid URLs
+  {
+    path: '**',
+    redirectTo: 'auth/login'
   }
 ];

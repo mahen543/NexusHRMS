@@ -2,6 +2,7 @@
 using HRMS_Common.CommonProperties;
 using HRMS_HikeFlow.NexusBAL;
 using HRMS_HikeFlow.NexusProperties;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -27,7 +28,9 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
 
 
         [HttpPost("getEmployee")]
-        public async Task<ContentResult?> GetEmployee([FromBody]Request objAPIRequest)
+        //[Authorize] // Requires any valid JWT token
+       [Authorize(Policy = "HRDirectorship")]
+        public async Task<ContentResult?> GetEmployee(GetRequest objAPIRequest)
         {
             NexusBAL? objNexusBAL = null;
             ContentResult? objContentResult = null;
@@ -114,13 +117,13 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
         //[Authorize(Roles = "Admin")]
         //[Authorize]
         [HttpPost("insertEmployee")]
-        public async Task<ContentResult?> InsertEmployee([FromBody] dynamic objAPIRequest)
+        public async Task<ContentResult?> InsertEmployee(InsertRequest objAPIRequest)
         {
 
 
             #region Variable Declaration
             Response<object>? objAPIResponse = null;
-            var HeaderType = Request.ContentType;
+            //var HeaderType = Request.ContentType;
             NexusBAL? objNexusBAL = null;
             ContentResult? objContentResult = null;
             object? objResult = null;
@@ -135,24 +138,22 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
             };
 
 
-            string s1 = objAPIRequest.ToString();
-            JObject jsonObject = JObject.Parse(s1);
-
             #region After validating request
 
             try
             {
-                if (jsonObject != null && jsonObject.HasValues)
+                if (objAPIRequest != null)
                 {
-                    Task<Response<object>> tskResponse = Task.Run(() =>
+                    // Attach IP address cleanly before passing to BAL
+                    string clientIp = _objGeneral.GetIP4Address();
+                    objAPIRequest = objAPIRequest with { IPAddress = clientIp };
+
+                    objAPIResponse = await Task.Run(() =>
                     {
 
                         objNexusBAL = new NexusBAL(_Db, _objGeneral, _objRegularExpressions);
-                        objAPIResponse = objNexusBAL.InsertEmployee(objAPIRequest);
-
-                        return objAPIResponse;
+                        return objNexusBAL.InsertEmployee(objAPIRequest);
                     });
-                    objAPIResponse = await tskResponse;
                 }
                 if (objAPIResponse != null)
                 {
@@ -161,11 +162,13 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
                 else
                 {
                     objResult = objResponse;
+                    intStatusCode = (int)General.CommonResponseErrorCodes.InvalidRequest;
                 }
             }
             catch (Exception)
             {
                 intStatusCode = (int)General.CommonResponseErrorCodes.InvalidRequest;
+                objResult = objResponse;
             }
             #endregion
 
@@ -177,8 +180,9 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
         }
         #endregion
 
+
         [HttpPost("updateEmployee")]
-        public async Task<ContentResult?> UpdateEmployeeById(dynamic objAPIRequest)
+        public async Task<ContentResult?> UpdateEmployeeById(UpdateRequest objAPIRequest)
         {
 
             var HeaderType = Request.ContentType;
@@ -187,6 +191,9 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
             Response<object>? UpdateEmployeeById = null;
             object? objResult = null;
 
+            // Attach IP address cleanly before passing to BAL
+            string clientIp = _objGeneral.GetIP4Address();
+            objAPIRequest = objAPIRequest with { IPAddress = clientIp };
 
             Response<object>? objResponse = new()
             {
@@ -226,7 +233,7 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
                 }
                 intStatusCode = (int)General.CommonResponseErrorCodes.Success;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 intStatusCode = (int)General.CommonResponseErrorCodes.InvalidRequest;
             }
@@ -261,7 +268,7 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
         /// </summary>
         /// 
         [HttpPost("deleteEmployee")]
-        public async Task<ContentResult?> DeleteEmployeeById(Request objAPIRequest)
+        public async Task<ContentResult?> DeleteEmployeeById(DeleteRequest objAPIRequest)
         {
 
             NexusBAL? objNexusBAL = null;
@@ -269,6 +276,8 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
             Response<object>? objAPIResponse = null;
             object? objResult = null;
 
+            string clientIp = _objGeneral.GetIP4Address();
+            objAPIRequest = objAPIRequest with { IPAddress = clientIp };
 
             Response<object>? objResponse = new()
             {

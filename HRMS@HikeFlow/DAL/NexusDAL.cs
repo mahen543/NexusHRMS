@@ -20,6 +20,7 @@ namespace HRMS_HikeFlow.DAL
             _connectionString = objAppDb.Connection;
             _commandTimeOut = objAppDb.CommandTimeOut;
         }
+
         #endregion
 
         #region Get Error Message
@@ -64,7 +65,7 @@ namespace HRMS_HikeFlow.DAL
         #endregion
 
 
-        public DataTable GetEmployees(Request objAPIRequest)
+        public DataTable GetEmployees(GetRequest objAPIRequest)
         {
 
             using (SqlCommand sqlCmd = new())
@@ -115,27 +116,43 @@ namespace HRMS_HikeFlow.DAL
         /// <c>InsertEmployee</c> This method is used to insert Employee record into the tblEmployee table.
         /// <param>Dynamic</param>
         /// </summary>
-        public object InsertEmployee(dynamic obj)
+        public object InsertEmployee(InsertRequest objAPIRequest)
         {
-            obj.DateCreated = DateTime.Now;
 
             using (SqlCommand sqlCmd = new())
             {
+
                 sqlCmd.Connection = _connectionString;
                 sqlCmd.CommandText = "usp_InsertEmployee";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.CommandTimeout = _commandTimeOut;
 
-                // Add parameters with proper SqlDbType
-                sqlCmd.Parameters.Add("ReportName", SqlDbType.NVarChar).Value = obj.ReportName;
-                sqlCmd.Parameters.Add("ReportFilePath", SqlDbType.NVarChar).Value = obj.ReportFilePath;
-                sqlCmd.Parameters.Add("IsPublished", SqlDbType.Bit).Value = obj.IsPublished != null ? (object)obj.IsPublished : DBNull.Value;
-                sqlCmd.Parameters.Add("CreatedBy", SqlDbType.NVarChar).Value = obj.CreatedBy;
-                sqlCmd.Parameters.Add("DateCreated", SqlDbType.DateTime2).Value = obj.DateCreated;
-                sqlCmd.Parameters.Add("ReleaseYear", SqlDbType.NVarChar).Value = obj.ReleaseYear;
-                sqlCmd.Parameters.Add("IpAddress", SqlDbType.NVarChar).Value = obj.IpAddress != null ? (object)obj.IpAddress : DBNull.Value;
-                sqlCmd.Parameters.Add("Tag", SqlDbType.NVarChar).Value = obj.Tag != null ? (object)obj.Tag : DBNull.Value;
-                sqlCmd.Parameters.Add("Comments", SqlDbType.NVarChar).Value = obj.Comments != null ? (object)obj.Comments : DBNull.Value;
+                // Required Text / String parameters
+                sqlCmd.Parameters.Add("FirstName", SqlDbType.NVarChar, 64).Value = objAPIRequest.FirstName;
+                sqlCmd.Parameters.Add("Email", SqlDbType.NVarChar, 128).Value = objAPIRequest.Email;
+                sqlCmd.Parameters.Add("Cmail", SqlDbType.NVarChar, 128).Value = objAPIRequest.Email;
+                sqlCmd.Parameters.Add("MobileNo", SqlDbType.NVarChar, 16).Value = objAPIRequest.MobileNo;
+                sqlCmd.Parameters.Add("Gender", SqlDbType.NVarChar, 8).Value = objAPIRequest.Gender;
+                sqlCmd.Parameters.Add("EmployeeType", SqlDbType.NVarChar, 32).Value = objAPIRequest.EmployeeType;
+                sqlCmd.Parameters.Add("IPAddress", SqlDbType.NVarChar, 64).Value = objAPIRequest.IPAddress;
+                sqlCmd.Parameters.Add("CreatedBy", SqlDbType.NVarChar, 128).Value = objAPIRequest.CreatedBy;
+
+                // Optional Text / String parameters
+                sqlCmd.Parameters.Add("MiddleName", SqlDbType.NVarChar, 64).Value = objAPIRequest.MiddleName != null ? (object)objAPIRequest.MiddleName : DBNull.Value;
+                sqlCmd.Parameters.Add("LastName", SqlDbType.NVarChar, 64).Value = objAPIRequest.LastName != null ? (object)objAPIRequest.LastName : DBNull.Value;
+                sqlCmd.Parameters.Add("Tag", SqlDbType.NVarChar, 64).Value = objAPIRequest.Tag != null ? (object)objAPIRequest.Tag : DBNull.Value;
+                sqlCmd.Parameters.Add("Comments", SqlDbType.NVarChar, 512).Value = objAPIRequest.Comments != null ? (object)objAPIRequest.Comments : DBNull.Value;
+
+                // Structural & Numeric values
+                sqlCmd.Parameters.Add("DepartmentId", SqlDbType.BigInt).Value = objAPIRequest.DepartmentId;
+                sqlCmd.Parameters.Add("DesignationId", SqlDbType.BigInt).Value = objAPIRequest.DesignationId;
+                sqlCmd.Parameters.Add("ReportingManagerId", SqlDbType.BigInt).Value = objAPIRequest.ReportingManagerId != null ? (object)objAPIRequest.ReportingManagerId : DBNull.Value;
+                sqlCmd.Parameters.Add("CompanyId", SqlDbType.BigInt).Value = objAPIRequest.CompanyId;
+                sqlCmd.Parameters.Add("SiteId", SqlDbType.BigInt).Value = objAPIRequest.SiteId;
+                sqlCmd.Parameters.Add("CurrentSalary", SqlDbType.Decimal).Value = objAPIRequest.CurrentSalary;
+
+                // Date parameter
+                sqlCmd.Parameters.Add("DateOfJoining", SqlDbType.Date).Value = objAPIRequest.DateOfJoining != null ? (object)objAPIRequest.DateOfJoining : DBNull.Value;
 
                 _connectionString.Open();
                 object objValue = sqlCmd.ExecuteScalar();
@@ -166,9 +183,8 @@ namespace HRMS_HikeFlow.DAL
         /// <c>UpdateEmployeeById</c> This method is used to update Employee record based on Id.
         /// <param>Dynamic</param>
         /// </summary>
-        public object UpdateEmployeeById(dynamic obj)
+        public object UpdateEmployeeById(UpdateRequest objAPIRequest)
         {
-            obj.LastUpdated = DateTime.Now;
 
             using (SqlCommand sqlCmd = new())
             {
@@ -177,14 +193,44 @@ namespace HRMS_HikeFlow.DAL
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.CommandTimeout = _commandTimeOut;
 
-                // Add parameters with proper SqlDbType
-                sqlCmd.Parameters.Add("ReportName", SqlDbType.NVarChar).Value = obj.ReportName != null ? (object)obj.ReportName : DBNull.Value;
-                sqlCmd.Parameters.Add("ReleaseYear", SqlDbType.NVarChar).Value = obj.ReleaseYear != null ? (object)obj.ReleaseYear : DBNull.Value;
-                sqlCmd.Parameters.Add("ReportFilePath", SqlDbType.NVarChar).Value = obj.ReportFilePath != null ? (object)obj.ReportFilePath : DBNull.Value;
-                sqlCmd.Parameters.Add("IsPublished", SqlDbType.Bit).Value = obj.IsPublished != null ? (object)obj.IsPublished : DBNull.Value;
-                sqlCmd.Parameters.Add("UpdatedBy", SqlDbType.NVarChar).Value = obj.UpdatedBy;
-                sqlCmd.Parameters.Add("LastUpdated", SqlDbType.DateTime2).Value = obj.LastUpdated;
-                sqlCmd.Parameters.Add("Id", SqlDbType.NVarChar).Value = obj.Id;
+                // 1. Mandatory Core Identifiers
+                sqlCmd.Parameters.Add("Id", SqlDbType.NVarChar, 64).Value = objAPIRequest.Id;
+                sqlCmd.Parameters.Add("UpdatedBy", SqlDbType.NVarChar, 128).Value = objAPIRequest.UpdatedBy;
+
+                // 2. Optional Text & Contact Strings
+                sqlCmd.Parameters.Add("FirstName", SqlDbType.NVarChar, 64).Value = (object?)objAPIRequest.FirstName ?? DBNull.Value;
+                sqlCmd.Parameters.Add("MiddleName", SqlDbType.NVarChar, 64).Value = (object?)objAPIRequest.MiddleName ?? DBNull.Value;
+                sqlCmd.Parameters.Add("LastName", SqlDbType.NVarChar, 64).Value = (object?)objAPIRequest.LastName ?? DBNull.Value;
+                sqlCmd.Parameters.Add("Email", SqlDbType.NVarChar, 128).Value = (object?)objAPIRequest.Email ?? DBNull.Value;
+                sqlCmd.Parameters.Add("Cmail", SqlDbType.NVarChar, 128).Value = (object?)objAPIRequest.Cmail ?? DBNull.Value;
+                sqlCmd.Parameters.Add("MobileNo", SqlDbType.NVarChar, 16).Value = (object?)objAPIRequest.MobileNo ?? DBNull.Value;
+                sqlCmd.Parameters.Add("Gender", SqlDbType.NVarChar, 8).Value = (object?)objAPIRequest.Gender ?? DBNull.Value;
+                sqlCmd.Parameters.Add("EmployeeType", SqlDbType.NVarChar, 32).Value = (object?)objAPIRequest.EmployeeType ?? DBNull.Value;
+
+                // 3. Optional Foreign Key Identifiers
+                sqlCmd.Parameters.Add("DepartmentId", SqlDbType.BigInt).Value = (object?)objAPIRequest.DepartmentId ?? DBNull.Value;
+                sqlCmd.Parameters.Add("DesignationId", SqlDbType.BigInt).Value = (object?)objAPIRequest.DesignationId ?? DBNull.Value;
+                sqlCmd.Parameters.Add("ReportingManagerId", SqlDbType.BigInt).Value = (object?)objAPIRequest.ReportingManagerId ?? DBNull.Value;
+                sqlCmd.Parameters.Add("CompanyId", SqlDbType.BigInt).Value = (object?)objAPIRequest.CompanyId ?? DBNull.Value;
+                sqlCmd.Parameters.Add("SiteId", SqlDbType.BigInt).Value = (object?)objAPIRequest.SiteId ?? DBNull.Value;
+
+                // 4. Optional Decimals and Integers
+                sqlCmd.Parameters.Add("CurrentSalary", SqlDbType.Decimal).Value = (object?)objAPIRequest.CurrentSalary ?? DBNull.Value;
+                sqlCmd.Parameters.Add("ExperienceYears", SqlDbType.Decimal).Value = (object?)objAPIRequest.ExperienceYears ?? DBNull.Value;
+                sqlCmd.Parameters.Add("SortOrder", SqlDbType.Int).Value = (object?)objAPIRequest.SortOrder ?? DBNull.Value;
+
+                // 5. Optional Flags
+                sqlCmd.Parameters.Add("IsPublished", SqlDbType.Bit).Value = (object?)objAPIRequest.IsPublished ?? DBNull.Value;
+                sqlCmd.Parameters.Add("DisplayOnWeb", SqlDbType.Bit).Value = (object?)objAPIRequest.DisplayOnWeb ?? DBNull.Value;
+
+                // 6. System Audit & Metadata Strings
+                sqlCmd.Parameters.Add("PublishedBy", SqlDbType.NVarChar, 128).Value = (object?)objAPIRequest.PublishedBy ?? DBNull.Value;
+                sqlCmd.Parameters.Add("Tag", SqlDbType.NVarChar, 64).Value = (object?)objAPIRequest.Tag ?? DBNull.Value;
+                sqlCmd.Parameters.Add("Comments", SqlDbType.NVarChar, 512).Value = (object?)objAPIRequest.Comments ?? DBNull.Value;
+                sqlCmd.Parameters.Add("IPAddress", SqlDbType.NVarChar, 64).Value = (object?)objAPIRequest.IPAddress ?? DBNull.Value;
+
+                // 7. Optional Date Field
+                sqlCmd.Parameters.Add("DateOfJoining", SqlDbType.Date).Value = (object?)objAPIRequest.DateOfJoining ?? DBNull.Value;
 
                 _connectionString.Open();
                 object objValue = sqlCmd.ExecuteScalar();
@@ -215,9 +261,8 @@ namespace HRMS_HikeFlow.DAL
         /// <c>DeleteEmployeeById</c> This method is used to delete the Employee record based on Id.
         /// <param>Dynamic</param>
         /// </summary>
-        public object DeleteEmployeeById(Request objAPIRequest)
+        public object DeleteEmployeeById(DeleteRequest objAPIRequest)
         {
-            objAPIRequest.DateDeleted = DateTime.Now;
 
             using (SqlCommand sqlCmd = new())
             {
@@ -227,9 +272,9 @@ namespace HRMS_HikeFlow.DAL
                 sqlCmd.CommandTimeout = _commandTimeOut;
 
                 // Add parameters with proper SqlDbType
-                sqlCmd.Parameters.Add("DeletedBy", SqlDbType.NVarChar).Value = objAPIRequest.DeletedBy;
-                sqlCmd.Parameters.Add("Id", SqlDbType.NVarChar).Value = objAPIRequest.Id;
-                sqlCmd.Parameters.Add("DateDeleted", SqlDbType.DateTime2).Value = objAPIRequest.DateDeleted;
+                sqlCmd.Parameters.Add("DeletedBy", SqlDbType.NVarChar, 128).Value = objAPIRequest.DeletedBy;
+                sqlCmd.Parameters.Add("Id", SqlDbType.NVarChar, 64).Value = objAPIRequest.Id;
+                sqlCmd.Parameters.Add("IPAddress", SqlDbType.NVarChar, 64).Value = (object?)objAPIRequest.IPAddress ?? DBNull.Value;
 
                 _connectionString.Open();
                 object i = (int)sqlCmd.ExecuteNonQuery();
