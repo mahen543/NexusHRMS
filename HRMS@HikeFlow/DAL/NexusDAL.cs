@@ -10,7 +10,6 @@ namespace HRMS_HikeFlow.DAL
 {
     public class NexusDAL
     {
-        #region ConnectionString
 
         public SqlConnection _connectionString;
         public int _commandTimeOut { get; }
@@ -21,29 +20,12 @@ namespace HRMS_HikeFlow.DAL
             _commandTimeOut = objAppDb.CommandTimeOut;
         }
 
-        #endregion
 
-        #region Get Error Message
-        //*************************************************************************************************
-        // Layer                        :   DAL 
-        // Method Name                  :   GetErrorMessage
-        // Method Description           :   This method is used to get the error messages from the database.
-        // Author                       :   Mahendra N
-        // Creation Date                :   17 Nov 2026
-        // Input Parameters             :   ErrorCode
-        // Modified Date                : 
-        // Modified Reason              :
-        // Return Values                :   ErrorMessage
-        //-------------------------------------------------------------------------------------------------
-        //  Version             Author                      Date                        Remarks       
-        // ------------------------------------------------------------------------------------------------
-        //  1.0                 MahendraN                   17 Nov 2026                 Creation
-        //*************************************************************************************************
         /// <summary>
-        /// <c>GetErrorMessage</c> This method is used to get the error messages from the database.
-        /// <param>objEmployeeListDTO</param>
-        /// <returns>string</returns> //It returns the error message.
+        /// Retrieves the corresponding error message string from the database using an error code.
         /// </summary>
+        /// <param name="errorCode">The unique numeric identifier code for the target error message.</param>
+        /// <returns>An object containing the error message retrieved from the database.</returns>
         public object GetErrorMessage(int errorCode)
         {
 
@@ -62,9 +44,40 @@ namespace HRMS_HikeFlow.DAL
                 return objResult;
             }
         }
-        #endregion
 
 
+        /// <summary>
+        /// Updates a user's password in the database by executing the stored procedure.
+        /// </summary>
+        /// <param name="objAPIRequest">Request object containing the target user ID, new password, and IP address.</param>
+        /// <returns>The number of rows affected by the database update operation.</returns>
+        public int ChangePassword(ChangePasswordRequestDto objAPIRequest)
+        {
+            using (SqlCommand sqlCmd = new())
+            {
+                sqlCmd.Connection = _connectionString;
+                sqlCmd.CommandText = "usp_ChangePassword";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.CommandTimeout = _commandTimeOut;
+
+                sqlCmd.Parameters.Add("UserId", SqlDbType.BigInt).Value = objAPIRequest.UserId != null ? (object)objAPIRequest.UserId : DBNull.Value;
+                sqlCmd.Parameters.Add("NewPassword", SqlDbType.NVarChar, 512).Value = objAPIRequest.NewPassword != null ? (object)objAPIRequest.NewPassword : DBNull.Value;
+                sqlCmd.Parameters.Add("IPAddress", SqlDbType.NVarChar, 64).Value = objAPIRequest.IPAddress != null ? (object)objAPIRequest.IPAddress : DBNull.Value;
+
+                _connectionString.Open();
+                int intRowsAffected = sqlCmd.ExecuteNonQuery();
+                _connectionString.Close();
+
+                return intRowsAffected;
+            }
+        }
+
+
+        /// <summary>
+        /// Fetches employee records from the database matching the specified search criteria.
+        /// </summary>
+        /// <param name="objAPIRequest">Request payload containing search filter parameters.</param>
+        /// <returns>A DataTable populated with the retrieved employee records.</returns>
         public DataTable GetEmployees(GetRequest objAPIRequest)
         {
 
@@ -94,28 +107,11 @@ namespace HRMS_HikeFlow.DAL
             }
         }
 
-        #region InsertEmployee
-        //************************************************************************************************************************************************************
-        // Layer                        :   DAL 
-        // Method Name                  :   InsertEmployee
-        // Method Description           :   This method is used to insert Employee record into the tblEmployee table.
-        // Author                       :   Mahendra N
-        // Creation Date                :   10 Nov 2023
-        // Input Parameters             :   Dynamic
-        // Modified Date                : 
-        // Modified Reason              :
-        // Return Values                :   
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------
-        //  Version             Author                      Date                        Remarks       
-        // -----------------------------------------------------------------------------------------------------------------------------------------------------------
-        //  1.0                 Mahendra N                  10 Nov 2026                 Creation
-        //  1.1                 Mahendra N                  27 Nov 2026                 Modification(Added Extra parameters to the procedure)
-        //  1.2                 Mahendra N                  02 Dec 2026                 Modification(Added DbNull.Value where possibility of Nulls pass to procedure)
-        //************************************************************************************************************************************************************
         /// <summary>
-        /// <c>InsertEmployee</c> This method is used to insert Employee record into the tblEmployee table.
-        /// <param>Dynamic</param>
+        /// Inserts a new employee record into the database table.
         /// </summary>
+        /// <param name="objAPIRequest">Request payload containing employee details to be created.</param>
+        /// <returns>An object containing the scalar execution result, such as the newly created employee ID or operation status.</returns>
         public object InsertEmployee(InsertRequest objAPIRequest)
         {
 
@@ -160,29 +156,12 @@ namespace HRMS_HikeFlow.DAL
                 return objValue;
             }
         }
-        #endregion
 
-        #region UpdateQuarterlyReleaseById
-        //***********************************************************************************************************************************************************
-        // Layer                        :   DAL 
-        // Method Name                  :   UpdateEmployeeById
-        // Method Description           :   This method is used to update Employee record based on Id.
-        // Author                       :   Mahendra N
-        // Creation Date                :   14 Nov 2026
-        // Input Parameters             :   Dynamic
-        // Modified Date                : 
-        // Modified Reason              :
-        // Return Values                :   
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------------
-        //  Version             Author                      Date                        Remarks       
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        //  1.0                 Mahendra N                  14 Nov 2026                 Creation
-        //  1.1                 Mahendra N                  02 Dec 2026                 Modification(Added DbNull.Value where possibility of Nulls pass to procedure)
-        //***********************************************************************************************************************************************************
         /// <summary>
-        /// <c>UpdateEmployeeById</c> This method is used to update Employee record based on Id.
-        /// <param>Dynamic</param>
+        /// Updates an existing employee record in the database based on its unique identifier.
         /// </summary>
+        /// <param name="objAPIRequest">Request payload containing update attributes for the target employee.</param>
+        /// <returns>An object containing the scalar execution result from the database operation.</returns>
         public object UpdateEmployeeById(UpdateRequest objAPIRequest)
         {
 
@@ -238,29 +217,13 @@ namespace HRMS_HikeFlow.DAL
                 return objValue;
             }
         }
-        #endregion
 
-
-        #region DeleteEmployeeById
-        //*********************************************************************************************************
-        // Layer                        :   DAL 
-        // Method Name                  :   DeleteEmployeeById
-        // Method Description           :   This method is used to delete the Employee record based on Id.
-        // Author                       :   Mahendra N
-        // Creation Date                :   08 Nov 2026
-        // Input Parameters             :   Dynamic
-        // Modified Date                : 
-        // Modified Reason              :
-        // Return Values                :   
-        //---------------------------------------------------------------------------------------------------------
-        //  Version             Author                      Date                        Remarks       
-        // --------------------------------------------------------------------------------------------------------
-        //  1.0                 Mahendra N                  08 Nov 2026                 Creation
-        //*********************************************************************************************************
+        
         /// <summary>
-        /// <c>DeleteEmployeeById</c> This method is used to delete the Employee record based on Id.
-        /// <param>Dynamic</param>
+        /// Deletes an employee record from the database using its unique identifier.
         /// </summary>
+        /// <param name="objAPIRequest">Request payload containing deletion details and the target employee identifier.</param>
+        /// <returns>An object wrapping the integer count of affected database rows.</returns>
         public object DeleteEmployeeById(DeleteRequest objAPIRequest)
         {
 
@@ -282,6 +245,5 @@ namespace HRMS_HikeFlow.DAL
                 return i;
             }
         }
-        #endregion
     }
 }

@@ -14,66 +14,41 @@ namespace HRMS_HikeFlow.NexusBAL
 {
     public class AuthBAL
     {
-        #region Fields & Properties
         private AppDb _objAppDb { get; }
         private readonly RegularExpressions? _objRegularExpressions;
         private readonly General _objGeneral;
-        #endregion
 
-        #region Constructors
         public AuthBAL(AppDb objAppDb, General? objGeneral = null, RegularExpressions? objRegularExpressions = null)
         {
             _objAppDb = objAppDb;
             _objGeneral = objGeneral ?? new General();
             _objRegularExpressions = objRegularExpressions;
         }
-        #endregion
-
-        #region AuthenticateUser
-        //*************************************************************************************************
-        // Layer                        :   BAL 
-        // Method Name                  :   AuthenticateUser
-        // Method Description           :   Validates user credentials against stored BCrypt password hash 
-        //                                  and returns user authentication details for JWT token generation.
-        // Author                       :   Mahendra N
-        // Creation Date                :   27 July 2026
-        // Input Parameters             :   objLoginRequest
-        // Return Values                :   Response<UserAuthModel>
-        //-------------------------------------------------------------------------------------------------
-        //  Version             Author                      Date                        Remarks       
-        // ------------------------------------------------------------------------------------------------
-        //  1.0                 Mahendra N                  27 July 2026                Creation
-        //*************************************************************************************************
+        
+        
         /// <summary>
-        /// <c>AuthenticateUser</c> Validates user login credentials and returns user details.
+        /// Validates user login credentials against the stored password hash and returns user authentication details.
         /// </summary>
-        /// <param name="objLoginRequest">The login request transfer object.</param>
-        /// <returns>Response&lt;UserAuthModel&gt;</returns>
-
+        /// <param name="objLoginRequest">The login request payload containing credentials.</param>
+        /// <returns>A Response object containing the authenticated user's details, or an error status on failure.</returns>
         public Response<UserAuthModel>? AuthenticateUser(LoginRequestDto objLoginRequest)
         {
-            #region Common Variables
+
             DateTime dtStartResponseTime = DateTime.Now;
             int intErrorCode = 0;
-            #endregion
 
-            #region Specific Variables
             Response<UserAuthModel>? objResponse = null;
             DataTable? dtUser = null;
             AuthDAL? objAuthDAL;
             UserAuthModel? objUserAuth = null;
-            #endregion
 
             try
             {
-                #region Request Data Validations
                 if (objLoginRequest == null || string.IsNullOrWhiteSpace(objLoginRequest.UserName) || string.IsNullOrWhiteSpace(objLoginRequest.Password))
                 {
                     intErrorCode = Convert.ToInt32(ErrorCode.Invalid_SearchWord); // Or your specific invalid input error code
                 }
-                #endregion
 
-                #region Calling DAL & Processing Login Logic
                 if (intErrorCode == 0 && objLoginRequest != null)
                 {
                     try
@@ -118,7 +93,6 @@ namespace HRMS_HikeFlow.NexusBAL
                         intErrorCode = Convert.ToInt32(ErrorCode.Technical_Error);
                     }
                 }
-                #endregion
             }
             catch (Exception)
             {
@@ -161,18 +135,12 @@ namespace HRMS_HikeFlow.NexusBAL
 
             return objResponse;
         }
-        #endregion
 
-        #region RefreshTokenDetails
-        //*************************************************************************************************
-        // Layer                        :   BAL 
-        // Method Name                  :   RefreshTokenDetails
-        // Method Description           :   Re-evaluates and returns updated user authentication model by UserId.
-        // Author                       :   Mahendra N
-        // Creation Date                :   27 July 2026
-        // Input Parameters             :   longUserId
-        // Return Values                :   Response<UserAuthModel>
-        //*************************************************************************************************
+        /// <summary>
+        /// Re-evaluates and retrieves an updated user authentication model by user ID.
+        /// </summary>
+        /// <param name="longUserId">The unique numeric identifier of the target user.</param>
+        /// <returns>A Response object containing the refreshed user authentication details.</returns>
         public Response<UserAuthModel>? RefreshTokenDetails(long longUserId)
         {
             DateTime dtStartResponseTime = DateTime.Now;
@@ -246,30 +214,14 @@ namespace HRMS_HikeFlow.NexusBAL
 
             return objResponse;
         }
-        #endregion
 
-        #region ValidateHierarchyAuthorization
-        //*************************************************************************************************
-        // Layer                        :   BAL 
-        // Method Name                  :   ValidateHierarchyAuthorization
-        // Method Description           :   Core in-memory RBAC rule evaluation evaluating user hierarchy rank 
-        //                                  and designation IDs without hitting the database.
-        // Author                       :   Mahendra N
-        // Creation Date                :   27 July 2026
-        // Input Parameters             :   objUserHierarchy, maxAllowedHierarchyLevel, allowedDesignationIds
-        // Return Values                :   bool
-        //-------------------------------------------------------------------------------------------------
-        //  Version             Author                      Date                        Remarks       
-        // ------------------------------------------------------------------------------------------------
-        //  1.0                 Mahendra N                  27 July 2026                Creation
-        //*************************************************************************************************
         /// <summary>
-        /// <c>ValidateHierarchyAuthorization</c> Validates whether a user hierarchy context satisfies policy rules.
+        /// Evaluates user hierarchy level and designation IDs in memory to determine authorization access.
         /// </summary>
         /// <param name="objUserHierarchy">User context built from JWT claims.</param>
-        /// <param name="maxAllowedHierarchyLevel">Maximum allowed rank (1 is highest).</param>
-        /// <param name="allowedDesignationIds">Optional target Designation ID filter array.</param>
-        /// <returns>bool</returns>
+        /// <param name="maxAllowedHierarchyLevel">Maximum allowed rank level (where 1 represents the highest authority position).</param>
+        /// <param name="allowedDesignationIds">Optional target designation ID filter array.</param>
+        /// <returns>True if authorization criteria are satisfied; otherwise, false.</returns>
         public bool ValidateHierarchyAuthorization(UserHierarchyModel objUserHierarchy, byte maxAllowedHierarchyLevel, long[] allowedDesignationIds)
         {
             if (objUserHierarchy == null)
@@ -297,6 +249,5 @@ namespace HRMS_HikeFlow.NexusBAL
 
             return allowedDesignationIds.Contains(objUserHierarchy.DesignationId);
         }
-        #endregion
     }
 }

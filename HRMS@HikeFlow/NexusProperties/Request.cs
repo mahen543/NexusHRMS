@@ -6,6 +6,13 @@ using System.Text;
 namespace HRMS_HikeFlow.NexusProperties
 {
 
+    public class ChangePasswordRequestDto
+    {
+        public long? UserId { get; set; }
+        public string? NewPassword { get; set; }
+        public string? IPAddress { get; set; }
+    }
+
     public class LoginRequestDto
     {
         [Required]

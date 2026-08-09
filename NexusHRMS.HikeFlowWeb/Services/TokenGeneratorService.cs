@@ -18,6 +18,12 @@ namespace NexusHRMS.HikeFlowWeb.Services
             _configuration = configuration;
         }
 
+
+        /// <summary>
+        /// Generates a signed JWT security token containing user claims and configured expiry time.
+        /// </summary>
+        /// <param name="user">The authenticated user details used to populate token claims.</param>
+        /// <returns>A signed JWT token string.</returns>
         public string GenerateToken(UserAuthModel user)
         {
             var secretKey = _configuration["Jwt:SecretKey"];

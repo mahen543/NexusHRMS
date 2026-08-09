@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using NexusHRMS.HikeFlowWeb.Authorization;
+using NexusHRMS.HikeFlowWeb.Security;
 using NexusHRMS.HikeFlowWeb.Services;
 using Scalar.AspNetCore;
 using System.Text;
@@ -55,20 +56,23 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization(options =>
-{
-    // Level 1 Executives / System Admin (Global Access)
-    options.AddPolicy("TopExecutiveOnly", policy =>
-        policy.Requirements.Add(new HierarchyRequirement(maxAllowedHierarchyLevel: 1)));
+//Injecting Authorization policies through a seperate class
+builder.Services.AddAppAuthorization();
 
-    // HR Policy: Allows Hierarchy Level <= 2 AND Designation ID 2 (HR Manager)
-    options.AddPolicy("HRDirectorship", policy =>
-        policy.Requirements.Add(new HierarchyRequirement(maxAllowedHierarchyLevel: 2, 2L)));
+//builder.Services.AddAuthorization(options =>
+//{
+//    // Level 1 Executives / System Admin (Global Access)
+//    options.AddPolicy("Admin", policy =>
+//        policy.Requirements.Add(new HierarchyRequirement(maxAllowedHierarchyLevel: 1)));
 
-    // Finance/PM Policy: Allows Hierarchy Level <= 3 AND Designation IDs 3 (Project Manager) or 7 (Accountant)
-    options.AddPolicy("FinanceManagers", policy =>
-        policy.Requirements.Add(new HierarchyRequirement(maxAllowedHierarchyLevel: 3, 3L, 7L)));
-});
+//    // HR Policy: Allows Hierarchy Level <= 2 AND Designation ID 2 (HR Manager)
+//    options.AddPolicy("HRDirectorship", policy =>
+//        policy.Requirements.Add(new HierarchyRequirement(maxAllowedHierarchyLevel: 2, 2L)));
+
+//    // Finance/PM Policy: Allows Hierarchy Level <= 3 AND Designation IDs 3 (Project Manager) or 7 (Accountant)
+//    options.AddPolicy("ProjectManager", policy =>
+//        policy.Requirements.Add(new HierarchyRequirement(maxAllowedHierarchyLevel: 3, 3L, 7L)));
+//});
 
 
 //Adding CORS
@@ -90,7 +94,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.MapScalarApiReference();
+    // 2. Configure Scalar to consume Swashbuckle's OpenAPI endpoint
+    app.MapScalarApiReference(options =>
+    {
+        options.WithOpenApiRoutePattern("/swagger/v1/swagger.json");
+    });
 }
 app.UseCors("AllowAngular");
 

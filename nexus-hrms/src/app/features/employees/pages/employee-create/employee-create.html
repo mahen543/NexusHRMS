@@ -1,1 +1,53 @@
-<p>employee-create works!</p>
+<div class="card">
+  <h2>Create New Employee</h2>
+
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+  @if (errorMessage()) {
+    <div class="alert alert-danger">{{ errorMessage() }}</div>
+  }
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input id="firstName" type="text" formControlName="firstName" class="form-control" />
+      @if (isFieldInvalid('firstName')) {
+        <small class="error-text">First Name is required.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" type="text" formControlName="lastName" class="form-control" />
+      @if (isFieldInvalid('lastName')) {
+        <small class="error-text">Last Name is required.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" class="form-control" />
+      @if (isFieldInvalid('email')) {
+        <small class="error-text">Please enter a valid email address.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="designationId">Designation ID</label>
+      <input id="designationId" type="number" formControlName="designationId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="hierarchyLevel">Hierarchy Level</label>
+      <input id="hierarchyLevel" type="number" formControlName="hierarchyLevel" class="form-control" />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Saving...' : 'Create Employee' }}
+      </button>
+    </div>
+  </form>
+</div>

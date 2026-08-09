@@ -63,6 +63,7 @@ namespace HRMS_Common
             Invalid_Department = 41,
             Invalid_Designation = 42,
             At_Least_One_Field_Required = 43,
+            Failed_To_Update_Password = 44
 
         }
         #region CommonResponseErrorCodes

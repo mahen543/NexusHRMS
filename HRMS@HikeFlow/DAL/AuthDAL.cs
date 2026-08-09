@@ -8,7 +8,6 @@ namespace HRMS_HikeFlow.DAL
 {
     public class AuthDAL
     {
-        #region ConnectionString
 
         public SqlConnection _connectionString;
         public int _commandTimeOut { get; }
@@ -19,18 +18,11 @@ namespace HRMS_HikeFlow.DAL
             _commandTimeOut = objAppDb.CommandTimeOut;
         }
 
-        #endregion
-
-        #region GetUserForAuth
-        //*************************************************************************************************
-        // Layer                        :   DAL 
-        // Method Name                  :   GetUserForAuth
-        // Method Description           :   Retrieves user authentication details by Username.
-        // Author                       :   Mahendra N
-        // Creation Date                :   27 July 2026
-        // Input Parameters             :   strUsername
-        // Return Values                :   DataTable
-        //*************************************************************************************************
+        /// <summary>
+        /// Retrieves user authentication details from the database using their username.
+        /// </summary>
+        /// <param name="strUsername">The username of the user to authenticate.</param>
+        /// <returns>A DataTable containing the matching user's authentication details.</returns>
         public DataTable GetUserForAuth(string strUsername)
         {
             using (SqlCommand sqlCmd = new())
@@ -58,19 +50,13 @@ namespace HRMS_HikeFlow.DAL
                 return dtResult;
             }
         }
-        #endregion
 
-        #region GetUserByIdForRefresh
-        //*************************************************************************************************
-        // Layer                        :   DAL 
-        // Method Name                  :   GetUserByIdForRefresh
-        // Method Description           :   Retrieves active user hierarchy & designation details by UserId
-        //                                  for refreshing user tokens or re-verifying claims.
-        // Author                       :   Mahendra N
-        // Creation Date                :   27 July 2026
-        // Input Parameters             :   longUserId
-        // Return Values                :   DataTable
-        //*************************************************************************************************
+
+        /// <summary>
+        /// Retrieves active user hierarchy and designation details by user ID to refresh authentication tokens or re-verify claims.
+        /// </summary>
+        /// <param name="longUserId">The unique numeric identifier of the target user.</param>
+        /// <returns>A DataTable populated with active user details and security claims.</returns>
         public DataTable GetUserByIdForRefresh(long longUserId)
         {
             using (SqlCommand sqlCmd = new())
@@ -91,6 +77,5 @@ namespace HRMS_HikeFlow.DAL
                 return dtResult;
             }
         }
-        #endregion
     }
 }

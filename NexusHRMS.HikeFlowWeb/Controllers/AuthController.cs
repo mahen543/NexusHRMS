@@ -21,6 +21,12 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
             _tokenGeneratorService = tokenGeneratorService;
         }
 
+
+        /// <summary>
+        /// Authenticates user credentials and generates a JWT token containing user details upon successful login.
+        /// </summary>
+        /// <param name="request">Payload containing the user's login credentials.</param>
+        /// <returns>An IActionResult containing the authentication result and JWT payload, or an error status code on failure.</returns>
         [HttpPost("login")]
         [AllowAnonymous] // Allows unauthenticated users to access login
         public IActionResult Login([FromBody] LoginRequestDto request)

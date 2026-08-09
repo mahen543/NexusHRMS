@@ -2,6 +2,7 @@
 using HRMS_HikeFlow.NexusBAL;
 using HRMS_HikeFlow.NexusProperties;
 using Microsoft.AspNetCore.Authorization;
+using NexusHRMS.HikeFlowWeb.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -12,10 +13,12 @@ namespace NexusHRMS.HikeFlowWeb.Authorization
         public byte MaxAllowedHierarchyLevel { get; }
         public long[] AllowedDesignationIds { get; }
 
-        public HierarchyRequirement(byte maxAllowedHierarchyLevel, params long[] allowedDesignationIds)
+        public HierarchyRequirement(byte maxAllowedHierarchyLevel, params Designations[] designations)
         {
             MaxAllowedHierarchyLevel = maxAllowedHierarchyLevel;
-            AllowedDesignationIds = allowedDesignationIds;
+            AllowedDesignationIds = designations
+                .Select(d => (long)d)
+                .ToArray();
         }
     }
 
