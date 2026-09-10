@@ -1,0 +1,25 @@
+CREATE TABLE tblSalaryHikeApprovals (
+    -- Column Definitions
+    SalaryHikeApprovalId  BIGINT        NOT NULL IDENTITY(1,1),
+    SalaryHikeRequestId   BIGINT        NOT NULL,
+    ApproverEmployeeId    BIGINT        NOT NULL,
+    ApprovedHikePercent   DECIMAL(5,2)  NOT NULL,
+    FinalSalary           DECIMAL(18,2) NOT NULL,
+    Decision              NVARCHAR(16)  NOT NULL,
+    DecisionRemarks       NVARCHAR(512)     NULL,
+    DecisionDate          DATETIME2     NOT NULL,
+    Id                    NVARCHAR(64)  NOT NULL,
+
+    -- Primary and Foreign Key Constraints
+    CONSTRAINT PK_tblSalaryHikeApprovals_SalaryHikeApprovalId PRIMARY KEY (SalaryHikeApprovalId),
+    CONSTRAINT FK_tblSalaryHikeApprovals_SalaryHikeRequestId  FOREIGN KEY (SalaryHikeRequestId) REFERENCES tblSalaryHikeRequests(SalaryHikeRequestId),
+    CONSTRAINT FK_tblSalaryHikeApprovals_ApproverEmployeeId   FOREIGN KEY (ApproverEmployeeId) REFERENCES tblEmployees(EmployeeId),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblSalaryHikeApprovals_Decision CHECK (Decision IN ('Approved','Rejected','Revised')),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblSalaryHikeApprovals_DecisionDate DEFAULT GETDATE() FOR DecisionDate,
+    CONSTRAINT DF_tblSalaryHikeApprovals_Id           DEFAULT NEWID()   FOR Id
+);
+GO

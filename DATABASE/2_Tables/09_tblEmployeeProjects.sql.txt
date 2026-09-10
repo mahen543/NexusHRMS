@@ -1,0 +1,29 @@
+CREATE TABLE tblEmployeeProjects (
+    -- Column Definitions
+    EmployeeProjectId          BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId                 BIGINT        NOT NULL,
+    ProjectId                  BIGINT        NOT NULL,
+    ReportingProjectManagerId  BIGINT            NULL,
+    RoleInProject              NVARCHAR(128)     NULL,
+    StartDate                  DATETIME2     NOT NULL,
+    EndDate                    DATETIME2         NULL,
+    IsActive                   BIT           NOT NULL,
+    CreatedBy                  NVARCHAR(128) NOT NULL,
+    DateCreated                DATETIME2     NOT NULL,
+    IsDeleted                  BIT           NOT NULL,
+    Id                         NVARCHAR(64)  NOT NULL,
+
+    -- Primary and Foreign Key Constraints
+    CONSTRAINT PK_tblEmployeeProjects_EmployeeProjectId         PRIMARY KEY (EmployeeProjectId),
+    CONSTRAINT FK_tblEmployeeProjects_EmployeeId                FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblEmployeeProjects_ProjectId                 FOREIGN KEY (ProjectId) REFERENCES tblProjects(ProjectId),
+    CONSTRAINT FK_tblEmployeeProjects_ReportingProjectManagerId FOREIGN KEY (ReportingProjectManagerId) REFERENCES tblEmployees(EmployeeId),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblEmployeeProjects_IsActive    DEFAULT 1         FOR IsActive,
+    CONSTRAINT DF_tblEmployeeProjects_CreatedBy   DEFAULT 'Admin'   FOR CreatedBy,
+    CONSTRAINT DF_tblEmployeeProjects_DateCreated DEFAULT GETDATE() FOR DateCreated,
+    CONSTRAINT DF_tblEmployeeProjects_IsDeleted   DEFAULT 0         FOR IsDeleted,
+    CONSTRAINT DF_tblEmployeeProjects_Id          DEFAULT NEWID()   FOR Id
+);
+GO

@@ -1,0 +1,33 @@
+CREATE TABLE tblAttendance (
+    -- Column Definitions
+    AttendanceId        BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId          BIGINT        NOT NULL,
+    AttendanceDate      DATETIME2     NOT NULL,
+    AttendanceStatus    NVARCHAR(16)  NOT NULL,
+    Remarks             NVARCHAR(256)     NULL,
+    MarkedByEmployeeId  BIGINT            NULL,
+    IsActive            BIT           NOT NULL,
+    CreatedBy           NVARCHAR(128) NOT NULL,
+    DateCreated         DATETIME2     NOT NULL,
+    UpdatedBy           NVARCHAR(128)     NULL,
+    LastUpdated         DATETIME2         NULL,
+    IsDeleted           BIT           NOT NULL,
+    Id                  NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Composite Unique Key Constraints
+    CONSTRAINT PK_tblAttendance_AttendanceId               PRIMARY KEY (AttendanceId),
+    CONSTRAINT FK_tblAttendance_EmployeeId                 FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblAttendance_MarkedByEmployeeId         FOREIGN KEY (MarkedByEmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT UK_tblAttendance_EmployeeId_AttendanceDate  UNIQUE (EmployeeId, AttendanceDate),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblAttendance_AttendanceStatus CHECK (AttendanceStatus IN ('Present','Absent','Leave','WFH')),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblAttendance_IsActive    DEFAULT 1                FOR IsActive,
+    CONSTRAINT DF_tblAttendance_CreatedBy   DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblAttendance_DateCreated DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblAttendance_IsDeleted   DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblAttendance_Id          DEFAULT NEWID()          FOR Id
+);
+GO

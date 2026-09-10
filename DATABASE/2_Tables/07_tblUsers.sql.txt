@@ -1,0 +1,27 @@
+CREATE TABLE tblUsers (
+    -- Column Definitions
+    UserId        BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId    BIGINT        NOT NULL,
+    UserName      NVARCHAR(64)  NOT NULL,
+    PasswordHash  NVARCHAR(512) NOT NULL,
+    LastLogin     DATETIME2         NULL,
+    IsActive      BIT           NOT NULL,
+    DateCreated   DATETIME2     NOT NULL,
+    IPAddress     NVARCHAR(64)  NOT NULL,
+    IsDeleted     BIT           NOT NULL,
+    Id            NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Unique Key Constraints
+    CONSTRAINT PK_tblUsers_Id         PRIMARY KEY (UserId),
+    CONSTRAINT FK_tblUsers_EmployeeId FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT UK_tblUsers_EmployeeId UNIQUE (EmployeeId),
+    CONSTRAINT UK_tblUsers_UserName   UNIQUE (UserName),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblUsers_IsActive    DEFAULT 1                FOR IsActive,
+    CONSTRAINT DF_tblUsers_DateCreated DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblUsers_IPAddress   DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblUsers_IsDeleted   DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblUsers_Id          DEFAULT NEWID()          FOR Id
+);
+GO

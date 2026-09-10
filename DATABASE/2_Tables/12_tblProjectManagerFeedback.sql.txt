@@ -1,0 +1,36 @@
+CREATE TABLE tblProjectManagerFeedback (
+    -- Column Definitions
+    ProjectManagerFeedbackId             BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId                           BIGINT        NOT NULL,
+    ProjectId                            BIGINT        NOT NULL,
+    ReviewCycleId                        BIGINT        NOT NULL,
+    TechnicalScore                       DECIMAL(5,2)  NOT NULL,
+    DeliveryScore                        DECIMAL(5,2)  NOT NULL,
+    ProblemSolvingScore                  DECIMAL(5,2)  NOT NULL,
+    OverallScore                         DECIMAL(5,2)  NOT NULL,
+    Feedback                             NVARCHAR(512)     NULL,
+    ReviewedByProjectManagerEmployeeId   BIGINT        NOT NULL,
+    ReviewDate                           DATETIME2     NOT NULL,
+    IsDeleted                            BIT           NOT NULL,
+    Id                                   NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Composite Unique Key Constraints
+    CONSTRAINT PK_tblProjectManagerFeedback_ProjectManagerFeedbackId   PRIMARY KEY (ProjectManagerFeedbackId),
+    CONSTRAINT FK_tblProjectManagerFeedback_EmployeeId                 FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblProjectManagerFeedback_ProjectId                  FOREIGN KEY (ProjectId) REFERENCES tblProjects(ProjectId),
+    CONSTRAINT FK_tblProjectManagerFeedback_ReviewCycleId             FOREIGN KEY (ReviewCycleId) REFERENCES tblReviewCycles(ReviewCycleId),
+    CONSTRAINT FK_tblProjectManagerFeedback_ReviewedByPMEmployeeId     FOREIGN KEY (ReviewedByProjectManagerEmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT UK_tblProjectManagerFeedback_Employee_Project_ReviewCycle UNIQUE (EmployeeId, ProjectId, ReviewCycleId),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblProjectManagerFeedback_TechnicalScore      CHECK (TechnicalScore BETWEEN 0 AND 10),
+    CONSTRAINT CK_tblProjectManagerFeedback_DeliveryScore       CHECK (DeliveryScore BETWEEN 0 AND 10),
+    CONSTRAINT CK_tblProjectManagerFeedback_ProblemSolvingScore CHECK (ProblemSolvingScore BETWEEN 0 AND 10),
+    CONSTRAINT CK_tblProjectManagerFeedback_OverallScore        CHECK (OverallScore BETWEEN 0 AND 10),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblProjectManagerFeedback_ReviewDate DEFAULT GETDATE() FOR ReviewDate,
+    CONSTRAINT DF_tblProjectManagerFeedback_IsDeleted  DEFAULT 0         FOR IsDeleted,
+    CONSTRAINT DF_tblProjectManagerFeedback_Id         DEFAULT NEWID()   FOR Id
+);
+GO

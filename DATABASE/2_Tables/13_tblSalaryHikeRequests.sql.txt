@@ -1,0 +1,28 @@
+CREATE TABLE tblSalaryHikeRequests (
+    -- Column Definitions
+    SalaryHikeRequestId         BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId                  BIGINT        NOT NULL,
+    ReviewCycleId               BIGINT        NOT NULL,
+    CurrentSalary               DECIMAL(18,2) NOT NULL,
+    SuggestedHikePercent        DECIMAL(5,2)  NOT NULL,
+    SuggestedSalary             DECIMAL(18,2) NOT NULL,
+    AverageHRScore              DECIMAL(5,2)  NOT NULL,
+    AverageProjectManagerScore  DECIMAL(5,2)  NOT NULL,
+    Status                      NVARCHAR(16)  NOT NULL,
+    CreatedDate                 DATETIME2     NOT NULL,
+    Id                          NVARCHAR(64)  NOT NULL,
+
+    -- Primary and Foreign Key Constraints
+    CONSTRAINT PK_tblSalaryHikeRequests_SalaryHikeRequestId PRIMARY KEY (SalaryHikeRequestId),
+    CONSTRAINT FK_tblSalaryHikeRequests_EmployeeId          FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblSalaryHikeRequests_ReviewCycleId       FOREIGN KEY (ReviewCycleId) REFERENCES tblReviewCycles(ReviewCycleId),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblSalaryHikeRequests_Status CHECK (Status IN ('Pending','Approved','Rejected','Revised')),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblSalaryHikeRequests_Status      DEFAULT 'Pending' FOR Status,
+    CONSTRAINT DF_tblSalaryHikeRequests_CreatedDate DEFAULT GETDATE() FOR CreatedDate,
+    CONSTRAINT DF_tblSalaryHikeRequests_Id          DEFAULT NEWID()   FOR Id
+);
+GO

@@ -1,0 +1,27 @@
+CREATE TABLE tblReviewCycles (
+    -- Column Definitions
+    ReviewCycleId           BIGINT        NOT NULL IDENTITY(1,1),
+    ReviewCycleName         NVARCHAR(128) NOT NULL,
+    CycleStartDate          DATETIME2     NOT NULL,
+    CycleEndDate            DATETIME2     NOT NULL,
+    FinancialEffectiveDate  DATETIME2     NOT NULL,
+    IsActive                BIT           NOT NULL,
+    CreatedBy               NVARCHAR(128) NOT NULL,
+    DateCreated             DATETIME2     NOT NULL,
+    IPAddress               NVARCHAR(64)  NOT NULL,
+    IsDeleted               BIT           NOT NULL,
+    Id                      NVARCHAR(64)  NOT NULL,
+
+    -- Primary & Unique Key Constraints
+    CONSTRAINT PK_tblReviewCycles_ReviewCycleId   PRIMARY KEY (ReviewCycleId),
+    CONSTRAINT UK_tblReviewCycles_ReviewCycleName UNIQUE (ReviewCycleName),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblReviewCycles_IsActive        DEFAULT 1                FOR IsActive,
+    CONSTRAINT DF_tblReviewCycles_CreatedBy       DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblReviewCycles_DateCreated     DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblReviewCycles_IPAddress       DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblReviewCycles_IsDeleted       DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblReviewCycles_Id              DEFAULT NEWID()          FOR Id
+);
+GO

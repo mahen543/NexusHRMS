@@ -1,0 +1,48 @@
+CREATE TABLE tblProjects (
+    -- Column Definitions
+    ProjectId         BIGINT        NOT NULL IDENTITY(1,1),
+    ProjectCode       NVARCHAR(32)  NOT NULL,
+    ProjectName       NVARCHAR(128) NOT NULL,
+    ClientName        NVARCHAR(128)     NULL,
+    DepartmentId      BIGINT        NOT NULL,
+    ProjectManagerId  BIGINT            NULL,
+    StartDate         DATE          NOT NULL,
+    EndDate           DATE              NULL,
+    CompanyId         BIGINT        NOT NULL,
+    IsActive          BIT           NOT NULL,
+    IsPublished       BIT           NOT NULL,
+    PublishedBy       NVARCHAR(128)     NULL,
+    DatePublished     DATETIME2         NULL,
+    DisplayOnWeb      BIT           NOT NULL,
+    SortOrder         INT           NOT NULL,
+    Tag               NVARCHAR(64)      NULL,
+    Comments          NVARCHAR(512)     NULL,
+    IPAddress         NVARCHAR(64)  NOT NULL,
+    CreatedBy         NVARCHAR(128) NOT NULL,
+    DateCreated       DATETIME2     NOT NULL,
+    UpdatedBy         NVARCHAR(128)     NULL,
+    LastUpdated       DATETIME2         NULL,
+    IsDeleted         BIT           NOT NULL,
+    DeletedBy         NVARCHAR(128)     NULL,
+    DateDeleted       DATETIME2         NULL,
+    Id                NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Composite Unique Key Constraints
+    CONSTRAINT PK_tblProjects_ProjectId        PRIMARY KEY (ProjectId),
+    CONSTRAINT FK_tblProjects_DepartmentId     FOREIGN KEY (DepartmentId) REFERENCES tblDepartments(DepartmentId),
+    CONSTRAINT FK_tblProjects_ProjectManagerId FOREIGN KEY (ProjectManagerId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblProjects_CompanyId        FOREIGN KEY (CompanyId) REFERENCES tblCompanies(CompanyId),
+    CONSTRAINT UK_tblProjects_Code             UNIQUE (CompanyId, ProjectCode),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblProjects_IsActive     DEFAULT 0                FOR IsActive,
+    CONSTRAINT DF_tblProjects_IsPublished  DEFAULT 0                FOR IsPublished,
+    CONSTRAINT DF_tblProjects_DisplayOnWeb DEFAULT 0                FOR DisplayOnWeb,
+    CONSTRAINT DF_tblProjects_SortOrder    DEFAULT 0                FOR SortOrder,
+    CONSTRAINT DF_tblProjects_IPAddress    DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblProjects_CreatedBy    DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblProjects_DateCreated  DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblProjects_IsDeleted    DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblProjects_Id           DEFAULT NEWID()          FOR Id
+);
+GO

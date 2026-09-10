@@ -1,0 +1,38 @@
+CREATE TABLE tblCompanies (
+    -- Column Definitions
+    CompanyId      BIGINT        NOT NULL IDENTITY(1,1),
+    CompanyCode    NVARCHAR(64)  NOT NULL,
+    CompanyName    NVARCHAR(128) NOT NULL,
+    IsPublished    BIT           NOT NULL,
+    PublishedBy    NVARCHAR(128)     NULL,
+    DatePublished  DATETIME2         NULL,
+    WebsiteUrl     NVARCHAR(256)     NULL,
+    DisplayOnWeb   BIT           NOT NULL,
+    SortOrder      INT           NOT NULL,
+    Tag            NVARCHAR(64)      NULL,
+    Comments       NVARCHAR(512)     NULL,
+    IPAddress      NVARCHAR(64)  NOT NULL,
+    CreatedBy      NVARCHAR(128) NOT NULL,
+    DateCreated    DATETIME2     NOT NULL,
+    UpdatedBy      NVARCHAR(128)     NULL,
+    LastUpdated    DATETIME2         NULL,
+    IsDeleted      BIT           NOT NULL,
+    DeletedBy      NVARCHAR(128)     NULL,
+    DateDeleted    DATETIME2         NULL,
+    Id             NVARCHAR(64)  NOT NULL,
+
+    -- Primary & Unique Key Constraints
+    CONSTRAINT PK_tblCompanies_CompanyId   PRIMARY KEY (CompanyId),
+    CONSTRAINT UK_tblCompanies_CompanyCode UNIQUE (CompanyCode),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblCompanies_IsPublished DEFAULT 0                FOR IsPublished,
+    CONSTRAINT DF_tblCompanies_DisplayOnWeb DEFAULT 0                FOR DisplayOnWeb,
+    CONSTRAINT DF_tblCompanies_SortOrder   DEFAULT 0                FOR SortOrder,
+    CONSTRAINT DF_tblCompanies_IPAddress   DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblCompanies_CreatedBy   DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblCompanies_DateCreated DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblCompanies_IsDeleted   DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblCompanies_Id          DEFAULT NEWID()          FOR Id
+);
+GO

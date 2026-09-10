@@ -1,0 +1,45 @@
+CREATE TABLE tblErrorCode (
+    -- Column Definitions
+    ErrorCode      INT           NOT NULL,
+    ErrorName      NVARCHAR(64)  NOT NULL,
+    ErrorMessage   NVARCHAR(128) NOT NULL,
+    CompanyId      BIGINT        NOT NULL,
+    SiteId         BIGINT        NOT NULL,
+    IsPublished    BIT           NOT NULL,
+    PublishedBy    NVARCHAR(128)     NULL,
+    DatePublished  DATETIME2         NULL,
+    DisplayOnWeb   BIT           NOT NULL,
+    SortOrder      INT           NOT NULL,
+    Tag            NVARCHAR(64)      NULL,
+    Comments       NVARCHAR(512)     NULL,
+    IPAddress      NVARCHAR(64)  NOT NULL,
+    CreatedBy      NVARCHAR(128) NOT NULL,
+    DateCreated    DATETIME2     NOT NULL,
+    UpdatedBy      NVARCHAR(128)     NULL,
+    LastUpdated    DATETIME2         NULL,
+    IsDeleted      BIT           NOT NULL,
+    DeletedBy      NVARCHAR(128)     NULL,
+    DateDeleted    DATETIME2         NULL,
+
+    -- Primary Key Constraint
+    CONSTRAINT PK_tblErrorCode_ErrorCode 
+        PRIMARY KEY (ErrorCode),
+
+    -- Foreign Key Constraints
+    CONSTRAINT FK_tblErrorCode_CompanyId 
+        FOREIGN KEY (CompanyId) REFERENCES tblCompanies(CompanyId),
+    CONSTRAINT FK_tblErrorCode_SiteId 
+        FOREIGN KEY (SiteId) REFERENCES tblSites(SiteId),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblErrorCode_CompanyId   DEFAULT 1                FOR CompanyId,
+    CONSTRAINT DF_tblErrorCode_SiteId      DEFAULT 1                FOR SiteId,
+    CONSTRAINT DF_tblErrorCode_IsPublished DEFAULT 0                FOR IsPublished,
+    CONSTRAINT DF_tblErrorCode_DisplayOnWeb DEFAULT 0                FOR DisplayOnWeb,
+    CONSTRAINT DF_tblErrorCode_SortOrder   DEFAULT 0                FOR SortOrder,
+    CONSTRAINT DF_tblErrorCode_IPAddress   DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblErrorCode_CreatedBy   DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblErrorCode_DateCreated DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblErrorCode_IsDeleted   DEFAULT 0                FOR IsDeleted
+);
+GO

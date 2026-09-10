@@ -1,0 +1,33 @@
+:root {
+  --bs-primary: #6f42c1;
+  --bs-primary-rgb: 111, 66, 193;
+  --bs-primary-bg-subtle: #f4efff;
+}
+
+/* Subtle primary utilities */
+.bg-primary-subtle {
+  background-color: var(--bs-primary-bg-subtle) !important;
+}
+
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+/* Table aesthetic polish */
+.table th {
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+.table td {
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #fcfaff;
+  transition: background-color 0.15s ease-in-out;
+}

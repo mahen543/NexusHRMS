@@ -1,0 +1,39 @@
+CREATE TABLE tblDepartments (
+    -- Column Definitions
+    DepartmentId    BIGINT        NOT NULL IDENTITY(1,1),
+    SiteId          BIGINT        NOT NULL,
+    DepartmentCode  NVARCHAR(64)  NOT NULL,
+    DepartmentName  NVARCHAR(64)  NOT NULL,
+    IsPublished     BIT           NOT NULL,
+    PublishedBy     NVARCHAR(128)     NULL,
+    DatePublished   DATETIME2         NULL,
+    DisplayOnWeb    BIT           NOT NULL,
+    SortOrder       INT           NOT NULL,
+    Tag             NVARCHAR(64)      NULL,
+    Comments        NVARCHAR(512)     NULL,
+    IPAddress       NVARCHAR(64)  NOT NULL,
+    CreatedBy       NVARCHAR(128) NOT NULL,
+    DateCreated     DATETIME2     NOT NULL,
+    UpdatedBy       NVARCHAR(128)     NULL,
+    LastUpdated     DATETIME2         NULL,
+    IsDeleted       BIT           NOT NULL,
+    DeletedBy       NVARCHAR(128)     NULL,
+    DateDeleted     DATETIME2         NULL,
+    Id              NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Unique Key Constraints
+    CONSTRAINT PK_tblDepartments_DepartmentId   PRIMARY KEY (DepartmentId),
+    CONSTRAINT FK_tblDepartments_SiteId         FOREIGN KEY (SiteId) REFERENCES tblSites(SiteId),
+    CONSTRAINT UK_tblDepartments_DepartmentCode UNIQUE (DepartmentCode),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblDepartments_IsPublished   DEFAULT 0                FOR IsPublished,
+    CONSTRAINT DF_tblDepartments_DisplayOnWeb  DEFAULT 0                FOR DisplayOnWeb,
+    CONSTRAINT DF_tblDepartments_SortOrder     DEFAULT 0                FOR SortOrder,
+    CONSTRAINT DF_tblDepartments_IPAddress     DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblDepartments_CreatedBy     DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblDepartments_DateCreated   DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblDepartments_IsDeleted     DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblDepartments_Id            DEFAULT NEWID()          FOR Id
+);
+GO

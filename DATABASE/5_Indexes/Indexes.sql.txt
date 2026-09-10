@@ -1,0 +1,19 @@
+-- 1. Employee hierarchy
+CREATE NONCLUSTERED INDEX IX_tblEmployees_Manager
+ON dbo.tblEmployees (ReportingManagerId);
+GO
+
+-- 2. Attendance history
+CREATE NONCLUSTERED INDEX IX_tblAttendance_EmployeeDate
+ON dbo.tblAttendance (EmployeeId, AttendanceDate);
+GO
+
+-- 3. Salary history
+CREATE NONCLUSTERED INDEX IX_tblSalaryHistory_EmployeeDate
+ON dbo.tblSalaryHistory (EmployeeId, EffectiveFrom DESC);
+GO
+
+-- 4. Salary hike workflow
+CREATE NONCLUSTERED INDEX IX_tblSalaryHikeRequests_EmployeeReviewCycle
+ON dbo.tblSalaryHikeRequests (EmployeeId, ReviewCycleId);
+GO

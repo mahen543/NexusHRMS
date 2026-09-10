@@ -98,7 +98,7 @@ namespace NexusHRMS.HikeFlowWeb.Controllers
         // CHANGED: Changed from [HttpPost("getEmployee")] to [HttpGet("getEmployee")]
         // Added [FromQuery] so query parameters bind correctly in GET requests
         [HttpGet("getEmployee")]
-        [Authorize(Policy = "GeneralEmployee")]
+       // [Authorize(Policy = "GeneralEmployee")]
         public async Task<ContentResult?> GetEmployee([FromQuery] GetRequest objAPIRequest)
         {
             NexusBAL? objNexusBAL = null;

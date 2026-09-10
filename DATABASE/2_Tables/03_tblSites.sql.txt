@@ -1,0 +1,42 @@
+CREATE TABLE tblSites (
+    -- Column Definitions
+    SiteId         BIGINT        NOT NULL IDENTITY(1,1),
+    CompanyId      BIGINT        NOT NULL,
+    SiteCode       NVARCHAR(32)  NOT NULL,
+    SiteName       NVARCHAR(128) NOT NULL,
+    City           NVARCHAR(64)  NOT NULL,
+    CountryName    NVARCHAR(64)  NOT NULL,
+    ZipCode        NVARCHAR(16)  NOT NULL,
+    IsPublished    BIT           NOT NULL,
+    PublishedBy    NVARCHAR(128)     NULL,
+    DatePublished  DATETIME2         NULL,
+    DisplayOnWeb   BIT           NOT NULL,
+    SortOrder      INT           NOT NULL,
+    Tag            NVARCHAR(64)      NULL,
+    Comments       NVARCHAR(512)     NULL,
+    IPAddress      NVARCHAR(64)  NOT NULL,
+    CreatedBy      NVARCHAR(128) NOT NULL,
+    DateCreated    DATETIME2     NOT NULL,
+    UpdatedBy      NVARCHAR(128)     NULL,
+    LastUpdated    DATETIME2         NULL,
+    IsDeleted      BIT           NOT NULL,
+    DeletedBy      NVARCHAR(128)     NULL,
+    DateDeleted    DATETIME2         NULL,
+    Id             NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Unique Key Constraints
+    CONSTRAINT PK_tblSites_SiteId    PRIMARY KEY (SiteId),
+    CONSTRAINT FK_tblSites_CompanyId FOREIGN KEY (CompanyId) REFERENCES tblCompanies(CompanyId),
+    CONSTRAINT UK_tblSites_SiteCode  UNIQUE (SiteCode),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblSites_IsPublished DEFAULT 0                FOR IsPublished,
+    CONSTRAINT DF_tblSites_DisplayOnWeb DEFAULT 0                FOR DisplayOnWeb,
+    CONSTRAINT DF_tblSites_SortOrder   DEFAULT 0                FOR SortOrder,
+    CONSTRAINT DF_tblSites_IPAddress   DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblSites_CreatedBy   DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblSites_DateCreated DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblSites_IsDeleted   DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblSites_Id          DEFAULT NEWID()          FOR Id
+);
+GO

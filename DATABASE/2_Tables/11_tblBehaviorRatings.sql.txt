@@ -1,0 +1,34 @@
+CREATE TABLE tblBehaviorRatings (
+    -- Column Definitions
+    BehaviorRatingId    BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId          BIGINT        NOT NULL,
+    ReviewCycleId       BIGINT        NOT NULL,
+    CommunicationScore  DECIMAL(5,2)  NOT NULL,
+    TeamworkScore       DECIMAL(5,2)  NOT NULL,
+    DisciplineScore     DECIMAL(5,2)  NOT NULL,
+    OverallScore        DECIMAL(5,2)  NOT NULL,
+    HRRemarks           NVARCHAR(512)     NULL,
+    RatedByEmployeeId   BIGINT        NOT NULL,
+    RatingDate          DATETIME2     NOT NULL,
+    IsDeleted           BIT           NOT NULL,
+    Id                  NVARCHAR(64)  NOT NULL,
+
+    -- Primary, Foreign, and Composite Unique Key Constraints
+    CONSTRAINT PK_tblBehaviorRatings_BehaviorRatingId        PRIMARY KEY (BehaviorRatingId),
+    CONSTRAINT FK_tblBehaviorRatings_EmployeeId              FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblBehaviorRatings_ReviewCycleId           FOREIGN KEY (ReviewCycleId) REFERENCES tblReviewCycles(ReviewCycleId),
+    CONSTRAINT FK_tblBehaviorRatings_RatedByEmployeeId       FOREIGN KEY (RatedByEmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT UK_tblBehaviorRatings_Employee_ReviewCycle    UNIQUE (EmployeeId, ReviewCycleId),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblBehaviorRatings_CommunicationScore CHECK (CommunicationScore BETWEEN 0 AND 10),
+    CONSTRAINT CK_tblBehaviorRatings_TeamworkScore      CHECK (TeamworkScore BETWEEN 0 AND 10),
+    CONSTRAINT CK_tblBehaviorRatings_DisciplineScore    CHECK (DisciplineScore BETWEEN 0 AND 10),
+    CONSTRAINT CK_tblBehaviorRatings_OverallScore       CHECK (OverallScore BETWEEN 0 AND 10),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblBehaviorRatings_RatingDate DEFAULT GETDATE() FOR RatingDate,
+    CONSTRAINT DF_tblBehaviorRatings_IsDeleted  DEFAULT 0         FOR IsDeleted,
+    CONSTRAINT DF_tblBehaviorRatings_Id         DEFAULT NEWID()   FOR Id
+);
+GO

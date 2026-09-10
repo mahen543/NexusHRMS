@@ -1,0 +1,24 @@
+CREATE TABLE tblSalaryHistory (
+    -- Column Definitions
+    SalaryHistoryId      BIGINT        NOT NULL IDENTITY(1,1),
+    EmployeeId           BIGINT        NOT NULL,
+    SalaryHikeRequestId  BIGINT            NULL,
+    EffectiveFrom        DATETIME2     NOT NULL,
+    OldSalary            DECIMAL(18,2) NOT NULL,
+    NewSalary            DECIMAL(18,2) NOT NULL,
+    HikePercent          DECIMAL(5,2)  NOT NULL,
+    CreatedDate          DATETIME2     NOT NULL,
+    IsDeleted            BIT           NOT NULL,
+    Id                   NVARCHAR(64)  NOT NULL,
+
+    -- Primary and Foreign Key Constraints
+    CONSTRAINT PK_tblSalaryHistory_SalaryHistoryId      PRIMARY KEY (SalaryHistoryId),
+    CONSTRAINT FK_tblSalaryHistory_EmployeeId           FOREIGN KEY (EmployeeId) REFERENCES tblEmployees(EmployeeId),
+    CONSTRAINT FK_tblSalaryHistory_SalaryHikeRequestId FOREIGN KEY (SalaryHikeRequestId) REFERENCES tblSalaryHikeRequests(SalaryHikeRequestId),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblSalaryHistory_CreatedDate DEFAULT GETDATE() FOR CreatedDate,
+    CONSTRAINT DF_tblSalaryHistory_IsDeleted   DEFAULT 0         FOR IsDeleted,
+    CONSTRAINT DF_tblSalaryHistory_Id          DEFAULT NEWID()   FOR Id
+);
+GO

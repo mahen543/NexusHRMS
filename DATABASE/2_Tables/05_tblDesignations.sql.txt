@@ -1,0 +1,47 @@
+CREATE TABLE tblDesignations (
+    -- Column Definitions
+    DesignationId       BIGINT        NOT NULL IDENTITY(1,1),
+    DesignationCode     NVARCHAR(64)  NOT NULL,
+    DesignationName     NVARCHAR(64)  NOT NULL,
+    HierarchyLevel      TINYINT       NOT NULL,
+    CanViewSalary       BIT           NOT NULL,
+    CanApproveHike      BIT           NOT NULL,
+    CanManageEmployees  BIT           NOT NULL,
+    IsPublished         BIT           NOT NULL,
+    PublishedBy         NVARCHAR(128)     NULL,
+    DatePublished       DATETIME2         NULL,
+    DisplayOnWeb        BIT           NOT NULL,
+    SortOrder           INT           NOT NULL,
+    Tag                 NVARCHAR(64)      NULL,
+    Comments            NVARCHAR(512)     NULL,
+    IPAddress           NVARCHAR(64)  NOT NULL,
+    CreatedBy           NVARCHAR(128) NOT NULL,
+    DateCreated         DATETIME2     NOT NULL,
+    UpdatedBy           NVARCHAR(128)     NULL,
+    LastUpdated         DATETIME2         NULL,
+    IsDeleted           BIT           NOT NULL,
+    DeletedBy           NVARCHAR(128)     NULL,
+    DateDeleted         DATETIME2         NULL,
+    Id                  NVARCHAR(64)  NOT NULL,
+
+    -- Primary & Unique Key Constraints
+    CONSTRAINT PK_tblDesignations_DesignationId PRIMARY KEY (DesignationId),
+    CONSTRAINT UK_tblDesignations_Code          UNIQUE (DesignationCode),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblDesignations_HierarchyLevel CHECK (HierarchyLevel > 0),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblDesignations_CanViewSalary       DEFAULT 0                FOR CanViewSalary,
+    CONSTRAINT DF_tblDesignations_CanApproveHike      DEFAULT 0                FOR CanApproveHike,
+    CONSTRAINT DF_tblDesignations_CanManageEmployees  DEFAULT 0                FOR CanManageEmployees,
+    CONSTRAINT DF_tblDesignations_IsPublished         DEFAULT 0                FOR IsPublished,
+    CONSTRAINT DF_tblDesignations_DisplayOnWeb        DEFAULT 0                FOR DisplayOnWeb,
+    CONSTRAINT DF_tblDesignations_SortOrder           DEFAULT 0                FOR SortOrder,
+    CONSTRAINT DF_tblDesignations_IPAddress           DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblDesignations_CreatedBy           DEFAULT 'Admin'          FOR CreatedBy,
+    CONSTRAINT DF_tblDesignations_DateCreated         DEFAULT GETDATE()        FOR DateCreated,
+    CONSTRAINT DF_tblDesignations_IsDeleted           DEFAULT 0                FOR IsDeleted,
+    CONSTRAINT DF_tblDesignations_Id                  DEFAULT NEWID()          FOR Id
+);
+GO

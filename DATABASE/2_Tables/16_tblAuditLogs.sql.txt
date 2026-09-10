@@ -1,0 +1,26 @@
+CREATE TABLE tblAuditLogs (
+    -- Column Definitions
+    AuditLogId   BIGINT        NOT NULL IDENTITY(1,1),
+    UserId       BIGINT        NOT NULL,
+    ActionType   NVARCHAR(32)  NOT NULL,
+    TableName    NVARCHAR(128) NOT NULL,
+    RecordId     BIGINT            NULL,
+    OldValues    NVARCHAR(MAX)     NULL,
+    NewValues    NVARCHAR(MAX)     NULL,
+    ActionDate   DATETIME2     NOT NULL,
+    IPAddress    NVARCHAR(64)  NOT NULL,
+    Id           NVARCHAR(64)  NOT NULL,
+
+    -- Primary and Foreign Key Constraints
+    CONSTRAINT PK_tblAuditLogs_AuditLogId PRIMARY KEY (AuditLogId),
+    CONSTRAINT FK_tblAuditLogs_UserId     FOREIGN KEY (UserId) REFERENCES tblUsers(UserId),
+
+    -- Check Constraints
+    CONSTRAINT CK_tblAuditLogs_ActionType CHECK (ActionType IN ('INSERT','UPDATE','DELETE','LOGIN')),
+
+    -- Default Constraints
+    CONSTRAINT DF_tblAuditLogs_ActionDate DEFAULT GETDATE()        FOR ActionDate,
+    CONSTRAINT DF_tblAuditLogs_IPAddress  DEFAULT '83.110.106.181' FOR IPAddress,
+    CONSTRAINT DF_tblAuditLogs_Id         DEFAULT NEWID()          FOR Id
+);
+GO
