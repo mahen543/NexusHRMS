@@ -8,6 +8,7 @@
 ![JWT](https://img.shields.io/badge/Auth-JWT-black?logo=jsonwebtokens)
 ![Status](https://img.shields.io/badge/status-in%20development-yellow)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![Views](https://hits.sh/github.com/mahen543/NexusHRMS.svg?label=views&color=blue)](https://hits.sh/github.com/mahen543/NexusHRMS/)
 
 ---
 
